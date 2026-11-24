@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>SampahKu — Beranda Warga</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brandGreen: "#1b5e4b",
+              brandGreenMid: "#28b381",
+              brandGreenDark: "#124234",
+              brandOrange: "#f9a03b",
+              brandOrangeDark: "#e08620",
+              brandCharcoal: "#1d2925",
+              brandLightBg: "#f4f9f6",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        background-color: #e5ece8;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .safe-bottom {
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.65rem);
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-brandCharcoal antialiased flex justify-center min-h-screen"
+  >
+    <!-- MOBILE APP SHELL (GOJEK STYLE) -->
+    <div
+      class="w-full max-w-[440px] bg-[#f6f8f7] min-h-screen shadow-2xl relative flex flex-col border-x border-slate-200/80 pb-24"
+    >
+      <!-- TOP APP BAR (SEARCH + IKON PROFIL) -->
+      <header
+        class="sticky top-0 z-40 bg-brandGreen text-white px-4 pt-3.5 pb-4 shadow-sm"
+      >
+        <div class="flex items-center gap-2.5">
+          <!-- Search Bar Tiket -->
+          <form id="headerTrackForm" class="relative flex-1">
+            <input
+              type="text"
+              id="headerTicketInput"
+              placeholder="Lacak tiket laporan (SMK-2026-...)..."
+              class="w-full pl-9 pr-14 py-2.5 rounded-full bg-white text-brandCharcoal placeholder-slate-400 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-brandOrange"
+            />
+            <i
+              data-lucide="search"
+              class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+            ></i>
+            <button
+              type="submit"
+              class="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-brandGreen text-white text-[10px] font-bold hover:bg-brandGreenDark transition"
+            >
+              Cek
+            </button>
+          </form>
+
+          <!-- Ikon Profil Bulat Kanan Atas -->
+          <button
+            type="button"
+            id="btnOpenProfilModal"
+            aria-label="Profil Akun Warga"
+            class="w-10 h-10 rounded-full bg-white text-brandGreen flex items-center justify-center shadow-sm border-2 border-emerald-200 shrink-0 active:scale-95 transition relative"
+          >
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span
+              class="w-2.5 h-2.5 rounded-full bg-brandGreenMid border-2 border-white absolute -bottom-0.5 -right-0.5"
+            ></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-1">
+        <!-- TAB 1: BERANDA ALA GOJEK -->
+        <section id="tab-home" class="tab-view space-y-4">
+          <!-- Latar Hijau Melengkung + Kartu Ringkasan Tiket -->
+          <div class="relative">
+            <div
+              class="bg-brandGreen h-28 rounded-b-[2rem] px-4 pt-1 text-white"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-[11px] text-emerald-100/90">
+                    Selamat datang kembali,
+                  </p>
+                  <h1 class="text-base font-extrabold tracking-tight">
+                    <span id="headerUserName">Warga SampahKu</span>
+                  </h1>
+                </div>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/15 text-[10px] font-bold border border-white/20"
+                >
+                  <i
+                    data-lucide="shield-check"
+                    class="w-3 h-3 text-brandOrange"
+                  ></i>
+                  Akun Warga
+                </span>
+              </div>
+            </div>
+
+            <!-- Floating Card Status Laporan -->
+            <div class="px-4 -mt-12">
+              <div
+                class="bg-white rounded-3xl p-3.5 shadow-md border border-slate-200/70 flex items-center justify-between gap-2"
+              >
+                <div
+                  class="bg-brandLightBg rounded-2xl px-3 py-2.5 flex-1 border border-emerald-100"
+                >
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <div
+                      class="w-5 h-5 rounded-md bg-brandGreen text-white flex items-center justify-center"
+                    >
+                      <i data-lucide="recycle" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <span class="text-[11px] font-extrabold text-brandGreen"
+                      >TiketKu</span
+                    >
+                  </div>
+                  <div class="flex items-baseline gap-2">
+                    <p
+                      id="statTotal"
+                      class="text-lg font-extrabold text-brandCharcoal leading-none"
+                    >
+                      0
+                    </p>
+                    <span class="text-[10px] text-slate-500 font-semibold"
+                      >Total Laporan</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center gap-2 mt-1.5 text-[10px] font-bold"
+                  >
+                    <span class="text-brandOrangeDark"
+                      >Proses: <strong id="statProses">0</strong></span
+                    >
+                    <span class="text-slate-300">&bull;</span>
+                    <span class="text-brandGreenMid"
+                      >Selesai: <strong id="statSelesai">0</strong></span
+                    >
+                  </div>
+                </div>
+
+                <!-- 3 Tombol Aksi Cepat -->
+                <div class="flex items-center gap-2 pr-1">
+                  <button
+                    type="button"
+                    data-go-tab="lapor"
+                    class="flex flex-col items-center gap-1 group"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-brandGreen text-white flex items-center justify-center shadow-sm group-active:scale-95 transition"
+                    >
+                      <i data-lucide="plus" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-700"
+                      >Lapor</span
+                    >
+                  </button>
+
+                  <button
+                    type="button"
+                    data-go-tab="tiket"
+                    class="flex flex-col items-center gap-1 group"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-brandOrange text-white flex items-center justify-center shadow-sm group-active:scale-95 transition"
+                    >
+                      <i data-lucide="history" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-700"
+                      >Riwayat</span
+                    >
+                  </button>
+
+                  <button
+                    type="button"
+                    id="btnQuickProfil"
+                    class="flex flex-col items-center gap-1 group"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-emerald-100 text-brandGreen flex items-center justify-center shadow-sm group-active:scale-95 transition"
+                    >
+                      <i data-lucide="user-check" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-700"
+                      >Profil</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRID LAYANAN UTAMA (4 IKON) -->
+          <div class="px-4">
+            <div
+              class="bg-white rounded-3xl p-4 border border-slate-200/70 shadow-sm"
+            >
+              <div class="grid grid-cols-4 gap-2 text-center">
+                <button
+                  type="button"
+                  data-go-tab="lapor"
+                  data-preset-layanan="Laporan Tumpukan"
+                  class="quick-service-btn flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-emerald-100 text-brandGreen flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="camera" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Lapor<br />Tumpukan</span
+                  >
+                </button>
+
+                <button
+                  type="button"
+                  data-go-tab="lapor"
+                  data-preset-layanan="Angkut Terjadwal"
+                  class="quick-service-btn flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-amber-100 text-brandOrangeDark flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="truck" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Jemput<br />Sampah</span
+                  >
+                </button>
+
+                <button
+                  type="button"
+                  data-go-tab="tiket"
+                  class="flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="ticket" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Lacak<br />Tiket</span
+                  >
+                </button>
+
+                <button
+                  type="button"
+                  data-go-tab="info"
+                  class="flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Panduan<br />Pilah</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- BANNER AJAKAN KEBERSIHAN -->
+          <div class="px-4">
+            <div
+              class="bg-gradient-to-r from-brandGreenDark via-brandGreen to-brandGreenMid rounded-3xl p-4 text-white flex items-center justify-between gap-3 shadow-sm"
+            >
+              <div class="space-y-1">
+                <span
+                  class="inline-block px-2 py-0.5 rounded-full bg-brandOrange text-brandCharcoal text-[9px] font-extrabold uppercase"
+                >
+                  Bebas Biaya
+                </span>
+                <h2 class="text-sm font-extrabold leading-snug">
+                  Lingkungan Bersih Mulai dari Laporanmu
+                </h2>
+                <p class="text-[11px] text-emerald-100 leading-relaxed">
+                  Foto titik sampah, kirim dalam 30 detik, pantau petugas sampai
+                  tuntas.
+                </p>
+              </div>
+              <button
+                type="button"
+                data-go-tab="lapor"
+                class="w-10 h-10 rounded-full bg-white text-brandGreen flex items-center justify-center shrink-0 shadow active:scale-95 transition"
+                aria-label="Buat laporan sekarang"
+              >
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- EDUKASI & TARIF SAMPAH (HORIZONTAL CAROUSEL) -->
+          <div class="px-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-extrabold text-brandCharcoal">
+                Panduan &amp; Tarif Pemilahan
+              </h3>
+              <span class="text-[11px] text-brandGreen font-bold"
+                >Geser &rarr;</span
+              >
+            </div>
+
+            <div
+              id="edukasiCardsContainer"
+              class="flex gap-3 overflow-x-auto no-scrollbar pb-1"
+            >
+              <div
+                class="min-w-[220px] bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-sm space-y-1.5"
+              >
+                <p class="text-xs font-extrabold text-brandCharcoal">
+                  Memuat panduan...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- KALKULATOR ESTIMASI NILAI SAMPAH -->
+          <div class="px-4 pb-2">
+            <div
+              class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3"
+            >
+              <div class="flex items-center justify-between">
+                <h3
+                  class="text-sm font-extrabold text-brandCharcoal flex items-center gap-1.5"
+                >
+                  <i
+                    data-lucide="calculator"
+                    class="w-4 h-4 text-brandOrange"
+                  ></i>
+                  Simulasi Nilai Sampah
+                </h3>
+                <span
+                  id="mobileWeightBadge"
+                  class="text-xs font-extrabold text-brandGreen bg-emerald-50 px-2.5 py-0.5 rounded-lg"
+                  >5 Kg</span
+                >
+              </div>
+
+              <div
+                id="calcCategoryButtons"
+                class="grid grid-cols-2 gap-2"
+              ></div>
+
+              <input
+                type="range"
+                id="mobileWeightRange"
+                min="1"
+                max="50"
+                value="5"
+                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brandGreen"
+              />
+
+              <div
+                class="flex items-center justify-between bg-brandCharcoal text-white px-3.5 py-2.5 rounded-2xl"
+              >
+                <div>
+                  <p class="text-[10px] text-slate-300">Estimasi Nilai Tukar</p>
+                  <p
+                    id="mobileEstResult"
+                    class="text-base font-extrabold text-brandOrange"
+                  >
+                    Rp 17.500
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  data-go-tab="lapor"
+                  class="px-3.5 py-1.5 rounded-full bg-brandGreenMid text-white text-xs font-bold active:scale-95 transition"
+                >
+                  Jemput Sekarang
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: FORM PELAPORAN & UPLOAD FOTO BUKTI -->
+        <section id="tab-lapor" class="tab-view hidden px-4 pt-4 space-y-4">
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm"
+          >
+            <span
+              class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-50 text-brandGreen text-[10px] font-bold uppercase"
+              >Form Pelaporan Warga</span
+            >
+            <h2 class="text-base font-extrabold text-brandCharcoal mt-1">
+              Lapor Penumpukan / Minta Pengangkutan
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Nomor tiket otomatis diterbitkan setelah laporan dikirim.
+            </p>
+
+            <div id="warga-alert" class="hidden mt-3" role="alert"></div>
+
+            <form id="laporanForm" class="space-y-3.5 mt-4">
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="pelaporNama"
+                  >Nama Pelapor *</label
+                >
+                <input
+                  type="text"
+                  id="pelaporNama"
+                  required
+                  placeholder="Nama lengkap Anda"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                />
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="pelaporHp"
+                    >No. HP / WA *</label
+                  >
+                  <input
+                    type="tel"
+                    id="pelaporHp"
+                    required
+                    placeholder="0812xxxxxxx"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="wilayahSelect"
+                    >Wilayah *</label
+                  >
+                  <select
+                    id="wilayahSelect"
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  ></select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="kategoriLaporan"
+                    >Kategori Sampah *</label
+                  >
+                  <select
+                    id="kategoriLaporan"
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  >
+                    <option value="" disabled selected>
+                      Pilih Kategori Sampah
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="jenisLayanan"
+                    >Jenis Layanan *</label
+                  >
+                  <select
+                    id="jenisLayanan"
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  >
+                    <option value="Angkut Terjadwal">Angkut Terjadwal</option>
+                    <option value="Laporan Tumpukan">Laporan Tumpukan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="alamatLokasi"
+                  >Alamat / Titik Lokasi Sampah *</label
+                >
+                <textarea
+                  id="alamatLokasi"
+                  rows="2"
+                  required
+                  placeholder="Jalan, Nomor Rumah, RT/RW, patokan sekitar..."
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                ></textarea>
+              </div>
+
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="catatanLaporan"
+                  >Catatan Tambahan (Opsional)</label
+                >
+                <input
+                  type="text"
+                  id="catatanLaporan"
+                  placeholder="Contoh: 2 karung botol plastik di depan pagar"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                />
+              </div>
+
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="fotoBukti"
+                  >Foto Bukti Kondisi Sampah (JPG/PNG, maks 5MB) *</label
+                >
+                <label
+                  for="fotoBukti"
+                  class="flex flex-col items-center justify-center p-4 border-2 border-dashed border-emerald-300 rounded-2xl bg-emerald-50/40 cursor-pointer hover:bg-emerald-50 transition"
+                >
+                  <i
+                    data-lucide="image-plus"
+                    class="w-6 h-6 text-brandGreen mb-1"
+                  ></i>
+                  <span
+                    id="fotoLabel"
+                    class="text-xs font-semibold text-brandCharcoal"
+                    >Ketuk untuk ambil atau pilih foto bukti</span
+                  >
+                  <span class="text-[10px] text-slate-400 mt-0.5"
+                    >Format: JPG, PNG, WEBP</span
+                  >
+                  <input
+                    type="file"
+                    id="fotoBukti"
+                    accept="image/jpeg,image/png,image/webp"
+                    required
+                    class="hidden"
+                  />
+                </label>
+                <img
+                  id="fotoPreview"
+                  alt="Preview bukti sampah"
+                  class="hidden mt-2.5 w-full h-36 object-cover rounded-2xl border border-slate-200"
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="btnSubmitLaporan"
+                class="w-full py-3 rounded-full bg-brandGreen hover:bg-brandGreenDark text-white text-xs font-extrabold shadow-md flex items-center justify-center gap-2 active:scale-[0.99] transition disabled:opacity-60"
+              >
+                <i data-lucide="send" class="w-4 h-4"></i> Kirim Laporan &amp;
+                Buat Tiket
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- TAB 3: CEK STATUS TIKET & RIWAYAT PENANGANAN -->
+        <section id="tab-tiket" class="tab-view hidden px-4 pt-4 space-y-4">
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3"
+          >
+            <h2 class="text-base font-extrabold text-brandCharcoal">
+              Cek Progres &amp; Riwayat Tiket
+            </h2>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="searchTicketField"
+                placeholder="Masukkan nomor tiket (cth: SMK-2026-0001)"
+                class="flex-1 px-3.5 py-2.5 rounded-full border border-slate-200 bg-slate-50 text-xs font-semibold uppercase focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+              />
+              <button
+                type="button"
+                id="btnCariTiket"
+                class="px-4 py-2.5 rounded-full bg-brandOrange text-white text-xs font-bold"
+              >
+                Lacak
+              </button>
+            </div>
+            <div id="hasilCariTiket"></div>
+          </div>
+
+          <div class="space-y-2.5">
+            <h3
+              class="text-xs font-extrabold uppercase tracking-wider text-slate-500"
+            >
+              Riwayat Laporan Saya
+            </h3>
+            <div id="daftarTiketList" class="space-y-2.5"></div>
+          </div>
+        </section>
+
+        <!-- TAB 4: PANDUAN & FAQ -->
+        <section id="tab-info" class="tab-view hidden px-4 pt-4 space-y-4">
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3"
+          >
+            <h2 class="text-base font-extrabold text-brandCharcoal">
+              Tentang Aplikasi SampahKu
+            </h2>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              SampahKu adalah platform pengelolaan dan monitoring sampah mandiri
+              untuk memudahkan warga melaporkan penumpukan sampah, menjadwalkan
+              pengangkutan, dan memantau tindak lanjut petugas kebersihan secara
+              transparan.
+            </p>
+            <div
+              class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5 text-xs"
+            >
+              <p class="font-bold text-brandCharcoal">Alur Penanganan Tiket:</p>
+              <p class="text-slate-600">
+                1. <strong>Pending</strong> — Laporan diterima &amp;
+                diverifikasi admin.
+              </p>
+              <p class="text-slate-600">
+                2. <strong>Diproses</strong> — Petugas kebersihan menuju lokasi.
+              </p>
+              <p class="text-slate-600">
+                3. <strong>Selesai</strong> — Sampah telah diangkut &amp;
+                dibersihkan.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-2.5"
+          >
+            <h3 class="text-sm font-extrabold text-brandCharcoal">
+              Pertanyaan Umum (FAQ)
+            </h3>
+            <details class="p-3 rounded-xl bg-slate-50 text-xs">
+              <summary class="font-bold text-brandCharcoal cursor-pointer">
+                Apakah pelaporan sampah dikenakan biaya?
+              </summary>
+              <p class="text-slate-600 mt-1.5 leading-relaxed">
+                Pelaporan tumpukan sampah dan penjemputan sampah terpilah
+                minimal 5 kg gratis tanpa biaya tambahan.
+              </p>
+            </details>
+            <details class="p-3 rounded-xl bg-slate-50 text-xs">
+              <summary class="font-bold text-brandCharcoal cursor-pointer">
+                Bagaimana cara mengecek status laporan saya?
+              </summary>
+              <p class="text-slate-600 mt-1.5 leading-relaxed">
+                Buka tab <strong>Riwayat</strong> untuk melihat seluruh riwayat
+                laporan akun Anda atau masukkan nomor tiket pada kolom pencarian
+                atas.
+              </p>
+            </details>
+          </div>
+        </section>
+      </main>
+
+      <!-- BOTTOM MOBILE NAVIGATION BAR -->
+      <nav
+        class="fixed bottom-0 z-50 w-full max-w-[440px] bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 pt-2 safe-bottom grid grid-cols-4 text-center shadow-[0_-4px_16px_rgba(0,0,0,0.05)]"
+      >
+        <button
+          type="button"
+          data-nav="home"
+          class="nav-tab-btn active flex flex-col items-center justify-center gap-1 py-1 text-brandGreen"
+        >
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <span class="text-[11px] font-bold">Beranda</span>
+        </button>
+
+        <button
+          type="button"
+          data-nav="lapor"
+          class="nav-tab-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-400"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Lapor</span>
+        </button>
+
+        <button
+          type="button"
+          data-nav="tiket"
+          class="nav-tab-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-400"
+        >
+          <i data-lucide="receipt-text" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Riwayat</span>
+        </button>
+
+        <button
+          type="button"
+          data-nav="info"
+          class="nav-tab-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-400"
+        >
+          <i data-lucide="compass" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Panduan</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- BOTTOM SHEET PROFIL WARGA -->
+    <div
+      id="profilWargaModal"
+      class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end justify-center"
+    >
+      <div
+        class="bg-white rounded-t-3xl p-5 max-w-[440px] w-full shadow-2xl space-y-4"
+      >
+        <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto"></div>
+
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 rounded-full bg-brandGreen text-white flex items-center justify-center font-extrabold text-base shrink-0"
+          >
+            <i data-lucide="user" class="w-6 h-6"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3
+              id="modalProfilNama"
+              class="text-base font-extrabold text-brandCharcoal truncate"
+            >
+              Warga SampahKu
+            </h3>
+            <p id="modalProfilEmail" class="text-xs text-slate-500 truncate">
+              warga@sampahku.id
+            </p>
+            <span
+              class="inline-block mt-1 px-2 py-0.5 rounded-full bg-emerald-50 text-brandGreen text-[10px] font-bold"
+              >Warga Terverifikasi</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs"
+        >
+          <div class="flex justify-between">
+            <span class="text-slate-500">Nomor HP / WA</span>
+            <span id="modalProfilHp" class="font-bold text-brandCharcoal"
+              >-</span
+            >
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Peran Akun</span>
+            <span class="font-bold text-brandGreen">Warga / Pelapor</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <button
+            type="button"
+            id="btnCloseProfilModal"
+            class="py-2.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold"
+          >
+            Tutup
+          </button>
+          <button
+            type="button"
+            id="btnLogoutWarga"
+            class="py-2.5 rounded-full bg-rose-600 text-white text-xs font-extrabold flex items-center justify-center gap-1.5"
+          >
+            <i data-lucide="log-out" class="w-4 h-4"></i> Keluar Akun
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL TIKET BERHASIL DIBUAT -->
+    <div
+      id="ticketSuccessModal"
+      class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl space-y-4"
+      >
+        <div
+          class="w-14 h-14 rounded-full bg-emerald-100 text-brandGreen flex items-center justify-center mx-auto"
+        >
+          <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-extrabold text-brandCharcoal">
+            Laporan Terkirim!
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Simpan nomor tiket berikut untuk memantau status penanganan:
+          </p>
+          <div
+            id="generatedTicketCode"
+            class="mt-3 py-2.5 px-3 rounded-2xl bg-amber-50 border border-amber-200 text-brandOrangeDark font-extrabold text-base tracking-wider"
+          >
+            SMK-2026-0001
+          </div>
+        </div>
+        <button
+          type="button"
+          id="btnCloseTicketModal"
+          class="w-full py-2.5 rounded-full bg-brandGreen text-white text-xs font-bold"
+        >
+          Lihat Status Tiket
+        </button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initDashboardWarga } from "../js/warga.js";
+      import { getCurrentUserAndProfile } from "../js/auth.js";
+
+      lucide.createIcons();
+      await initDashboardWarga();
+
+      const profilModal = document.getElementById("profilWargaModal");
+      const openProfil = async () => {
+        const info = await getCurrentUserAndProfile();
+        if (info?.profil) {
+          document.getElementById("modalProfilNama").textContent =
+            info.profil.nama_lengkap || "Warga SampahKu";
+          document.getElementById("modalProfilHp").textContent =
+            info.profil.no_hp || "-";
+        }
+        if (info?.user?.email) {
+          document.getElementById("modalProfilEmail").textContent =
+            info.user.email;
+        }
+        profilModal?.classList.remove("hidden");
+        profilModal?.classList.add("flex");
+      };
+
+      document
+        .getElementById("btnOpenProfilModal")
+        ?.addEventListener("click", openProfil);
+      document
+        .getElementById("btnQuickProfil")
+        ?.addEventListener("click", openProfil);
+      document
+        .getElementById("btnCloseProfilModal")
+        ?.addEventListener("click", () => {
+          profilModal?.classList.add("hidden");
+          profilModal?.classList.remove("flex");
+        });
+      profilModal?.addEventListener("click", (e) => {
+        if (e.target === profilModal) {
+          profilModal.classList.add("hidden");
+          profilModal.classList.remove("flex");
+        }
+      });
+
+      document.querySelectorAll(".quick-service-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const jenis = btn.dataset.presetLayanan;
+          const selectEl = document.getElementById("jenisLayanan");
+          if (selectEl && jenis) {
+            selectEl.value = jenis;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

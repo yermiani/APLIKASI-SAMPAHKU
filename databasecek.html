@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SampahKu — Cek Koneksi Supabase</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: #f4f9f6;
+        color: #1d2925;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1.5rem;
+      }
+      .card {
+        width: 100%;
+        max-width: 540px;
+        background: #fffdf9;
+        border: 1px solid #dfd6c5;
+        border-radius: 1.25rem;
+        padding: 1.75rem;
+        box-shadow: 0 12px 30px rgba(29, 41, 37, 0.08);
+      }
+      h1 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #124234;
+        margin-bottom: 0.35rem;
+      }
+      p.sub {
+        font-size: 0.85rem;
+        color: #6c7d76;
+        margin-bottom: 1.25rem;
+      }
+      .box {
+        background: #f4efe6;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        font-size: 0.84rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        word-break: break-word;
+      }
+      .ok {
+        color: #124234;
+        font-weight: 700;
+      }
+      .err {
+        color: #b42318;
+        font-weight: 700;
+      }
+      button {
+        padding: 0.65rem 1.1rem;
+        border: none;
+        border-radius: 0.65rem;
+        background: #1b5e4b;
+        color: #fff;
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #124234;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Uji Koneksi Supabase — SampahKu</h1>
+      <p class="sub">
+        Memeriksa konfigurasi <code>js/config.js</code>, Auth, dan akses
+        database.
+      </p>
+
+      <div id="hasil-cek" class="box">Menjalankan pengecekan...</div>
+      <button type="button" id="btn-cek-ulang">Cek Ulang Koneksi</button>
+    </div>
+
+    <script type="module">
+      import { supabase, SUPABASE_URL, SUPABASE_KEY } from "./js/config.js";
+
+      const hasilEl = document.getElementById("hasil-cek");
+      const btnCekUlang = document.getElementById("btn-cek-ulang");
+
+      async function jalankanCek() {
+        hasilEl.innerHTML = "Memeriksa koneksi ke Supabase...";
+
+        const urlValid =
+          typeof SUPABASE_URL === "string" &&
+          SUPABASE_URL.startsWith("https://") &&
+          SUPABASE_URL.includes(".supabase.co") &&
+          !SUPABASE_URL.includes("GANTI_DENGAN_PROJECT_REF_KAMU");
+
+        const keyValid =
+          typeof SUPABASE_KEY === "string" && SUPABASE_KEY.trim().length > 15;
+
+        if (!urlValid || !keyValid) {
+          hasilEl.innerHTML = `
+            <div><span class="err">✘ Konfigurasi belum lengkap</span></div>
+            <div>URL saat ini: <code>${SUPABASE_URL}</code></div>
+            <div style="margin-top:0.5rem;">Pastikan <code>SUPABASE_URL</code> di <code>js/config.js</code> sudah diganti dengan Project URL asli dari Supabase Dashboard.</div>
+          `;
+          return;
+        }
+
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
+
+        // Uji query ringan ke tabel jika sudah dibuat; jika belum, cek respons endpoint REST
+        let dbStatusHtml = "";
+        const { error: dbError } = await supabase
+          .from("laporan_sampah")
+          .select("id")
+          .limit(1);
+
+        if (!dbError) {
+          dbStatusHtml = `<div class="ok">✔ Tabel <code>laporan_sampah</code> dapat diakses.</div>`;
+        } else if (
+          dbError.message.toLowerCase().includes("does not exist") ||
+          dbError.code === "42P01"
+        ) {
+          dbStatusHtml = `<div><span class="ok">✔ Terhubung ke server Supabase</span> (tabel <code>laporan_sampah</code> belum dibuat di SQL Editor).</div>`;
+        } else {
+          dbStatusHtml = `<div><span class="err">! Respons database:</span> ${dbError.message}</div>`;
+        }
+
+        hasilEl.innerHTML = `
+          <div><span class="ok">✔ URL &amp; Key terformat valid</span></div>
+          <div>Project URL: <code>${SUPABASE_URL}</code></div>
+          <div>Auth Service: ${
+            sessionError
+              ? `<span class="err">✘ ${sessionError.message}</span>`
+              : `<span class="ok">✔ Aktif</span> (Session: ${
+                  sessionData?.session ? "Login aktif" : "Belum login / publik"
+                })`
+          }</div>
+          ${dbStatusHtml}
+        `;
+      }
+
+      btnCekUlang?.addEventListener("click", jalankanCek);
+      jalankanCek();
+    </script>
+  </body>
+</html>

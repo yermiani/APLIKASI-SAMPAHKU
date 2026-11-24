@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Akun Baru - Sampahku</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brandGreen: "#28b381",
+              brandGreenDark: "#1e8a63",
+              brandOrange: "#f9a03b",
+              brandOrangeDark: "#e08620",
+              brandCharcoal: "#292f38",
+              brandLightBg: "#f4f9f6",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="font-sans bg-brandLightBg text-brandCharcoal antialiased min-h-screen flex items-center justify-center p-4 py-10"
+  >
+    <div
+      class="max-w-lg w-full bg-white rounded-3xl shadow-xl border border-slate-200/80 p-8 sm:p-10"
+    >
+      <!-- Logo & Header -->
+      <div class="text-center mb-8">
+        <a
+          href="index.html"
+          class="inline-flex items-center space-x-3 group mb-4"
+        >
+        </a>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-brandCharcoal">
+          Bergabung dengan Sampahku
+        </h1>
+        <p class="text-slate-500 text-sm mt-2">
+          Buat akun baru untuk mulai menukar sampah jadi saldo digital & jaga
+          lingkungan.
+        </p>
+      </div>
+
+      <!-- Register Form -->
+      <form
+        id="registerForm"
+        onsubmit="handleRegister(event)"
+        class="space-y-4"
+      >
+        <div>
+          <label
+            class="block text-sm font-semibold text-brandCharcoal mb-1.5"
+            for="regName"
+            >Nama Lengkap *</label
+          >
+          <input
+            type="text"
+            id="regName"
+            required
+            placeholder="Contoh: Siti Aminah"
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brandGreen focus:border-transparent outline-none text-sm transition-all"
+          />
+        </div>
+
+        <div>
+          <label
+            class="block text-sm font-semibold text-brandCharcoal mb-1.5"
+            for="regPhone"
+            >Nomor WhatsApp *</label
+          >
+          <input
+            type="tel"
+            id="regPhone"
+            required
+            placeholder="08123456789"
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brandGreen focus:border-transparent outline-none text-sm transition-all"
+          />
+        </div>
+
+        <div>
+          <label
+            class="block text-sm font-semibold text-brandCharcoal mb-1.5"
+            for="regEmail"
+            >Alamat Email *</label
+          >
+          <input
+            type="email"
+            id="regEmail"
+            required
+            placeholder="nama@email.com"
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brandGreen focus:border-transparent outline-none text-sm transition-all"
+          />
+        </div>
+
+        <!-- Kata Sandi -->
+        <div>
+          <label
+            class="block text-sm font-semibold text-brandCharcoal mb-1.5"
+            for="regPassword"
+            >Kata Sandi *</label
+          >
+          <div class="relative">
+            <input
+              type="password"
+              id="regPassword"
+              required
+              placeholder="Minimal 6 karakter"
+              class="w-full px-4 py-3 pr-12 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brandGreen focus:border-transparent outline-none text-sm transition-all"
+            />
+            <button
+              type="button"
+              onclick="togglePassword('regPassword', 'eyeIcon1')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+            >
+              <i data-lucide="eye" id="eyeIcon1" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Konfirmasi Kata Sandi -->
+        <div>
+          <label
+            class="block text-sm font-semibold text-brandCharcoal mb-1.5"
+            for="regPasswordConfirm"
+            >Konfirmasi Kata Sandi *</label
+          >
+          <div class="relative">
+            <input
+              type="password"
+              id="regPasswordConfirm"
+              required
+              placeholder="Ulangi kata sandi Anda"
+              class="w-full px-4 py-3 pr-12 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brandGreen focus:border-transparent outline-none text-sm transition-all"
+            />
+            <button
+              type="button"
+              onclick="togglePassword('regPasswordConfirm', 'eyeIcon2')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+            >
+              <i data-lucide="eye" id="eyeIcon2" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button
+            type="submit"
+            class="w-full py-3.5 bg-brandGreen hover:bg-brandGreenDark text-white font-bold rounded-xl shadow-lg shadow-brandGreen/25 transition-all text-sm flex items-center justify-center"
+          >
+            Daftar Akun Sekarang
+            <i data-lucide="user-plus" class="w-4 h-4 ml-2"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Footer Login Link -->
+      <div class="mt-8 text-center text-sm text-slate-500">
+        <p>
+          Sudah punya akun Sampahku?
+          <a href="login.html" class="font-bold text-brandGreen hover:underline"
+            >Masuk di sini</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- JavaScript & Supabase Integration -->
+    <script>
+      // Render ikon Lucide agar muncul dengan sempurna
+      lucide.createIcons();
+
+      // Inisialisasi Supabase
+      const SUPABASE_URL = "https://piqsmuytdotnaokregbb.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "sb_publishable_ptuDTfAab_NR-E9p2y8ltQ_GyHLcXzT";
+      const supabase = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+      );
+
+      async function handleRegister(e) {
+        e.preventDefault();
+
+        const name = document.getElementById("regName").value;
+        const phone = document.getElementById("regPhone").value;
+        const email = document.getElementById("regEmail").value;
+        const password = document.getElementById("regPassword").value;
+
+        // Proses pendaftaran user ke Supabase Auth beserta metadata (nama & nomor HP)
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: name,
+              phone: phone,
+            },
+          },
+        });
+
+        if (error) {
+          alert("Gagal mendaftar: " + error.message);
+          console.error(error);
+          return;
+        }
+
+        alert(
+          "Pendaftaran akun berhasil! Silakan masuk menggunakan akun baru.",
+        );
+        window.location.href = "login.html";
+      }
+
+      // Fungsi untuk Toggle Lihat/Sembunyikan Password
+      function togglePassword(fieldId, iconId) {
+        const passwordField = document.getElementById(fieldId);
+        const eyeIcon = document.getElementById(iconId);
+
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          eyeIcon.setAttribute("data-lucide", "eye-off");
+        } else {
+          passwordField.type = "password";
+          eyeIcon.setAttribute("data-lucide", "eye");
+        }
+        lucide.createIcons(); // Refresh ikon Lucide
+      }
+
+      // Validasi tambahan di dalam fungsi handleRegister
+      async function handleRegister(e) {
+        e.preventDefault();
+
+        const name = document.getElementById("regName").value;
+        const phone = document.getElementById("regPhone").value;
+        const email = document.getElementById("regEmail").value;
+        const password = document.getElementById("regPassword").value;
+        const passwordConfirm =
+          document.getElementById("regPasswordConfirm").value;
+
+        // Cek apakah password dan konfirmasi sama
+        if (password !== passwordConfirm) {
+          alert("Kata sandi dan konfirmasi kata sandi tidak sama!");
+          return;
+        }
+
+        // Cek minimal karakter password
+        if (password.length < 6) {
+          alert("Kata sandi minimal harus 6 karakter!");
+          return;
+        }
+
+        // Proses pendaftaran user ke Supabase Auth
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: name,
+              phone: phone,
+            },
+          },
+        });
+
+        if (error) {
+          alert("Gagal mendaftar: " + error.message);
+          console.error(error);
+          return;
+        }
+
+        alert(
+          "Pendaftaran akun berhasil! Silakan masuk menggunakan akun baru.",
+        );
+        window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>
