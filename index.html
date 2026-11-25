@@ -1,20 +1,12 @@
-
 <!doctype html>
 <html lang="id" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-    <meta name="theme-color" content="#1b5e4b" />
-    <title>SampahKu — Kelola Sampah Lebih Mudah</title>
+    <title>SampahKu — Beranda Warga</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -44,909 +36,853 @@
       };
     </script>
     <style>
-      * {
+      *,
+      *::before,
+      *::after {
         -webkit-tap-highlight-color: transparent;
-      }
-      html,
-      body {
-        overscroll-behavior-y: none;
-        background-color: #e4ede8;
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-      .safe-top {
-        padding-top: calc(env(safe-area-inset-top, 0px) + 1.15rem);
+      *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
       }
-      .safe-bottom-area {
-        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+      body {
+        background-color: #e5ece8;
+      }
+      .safe-bottom {
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.65rem);
       }
     </style>
   </head>
   <body
     class="font-sans text-brandCharcoal antialiased flex justify-center min-h-screen"
   >
-    <!-- MOBILE APP SHELL (FULLSCREEN TANPA TOOLBAR ATAS & BAWAH) -->
+    <!-- MOBILE APP SHELL (LEBAR IDEAL 440PX) -->
     <div
-      class="w-full max-w-[440px] bg-[#f6f8f7] min-h-screen shadow-2xl relative flex flex-col border-x border-slate-200/80 safe-bottom-area overflow-x-hidden"
+      class="w-full max-w-[440px] bg-[#f6f8f7] min-h-screen shadow-2xl relative flex flex-col border-x border-slate-200/80 pb-24 overflow-x-hidden"
     >
-      <!-- MAIN CONTENT -->
-      <main class="flex-1 space-y-4">
-        <!-- HERO BANNER MELENGKUNG + TOMBOL MASUK / DAFTAR MENYATU -->
-        <div class="relative">
-          <div
-            class="bg-gradient-to-b from-brandGreenDark via-brandGreen to-brandGreenMid safe-top pb-16 px-4 rounded-b-[2.25rem] text-white relative overflow-hidden shadow-md"
+      <!-- TOP APP BAR (SEARCH + IKON PROFIL) -->
+      <header
+        class="sticky top-0 z-40 bg-brandGreen text-white px-4 pt-3.5 pb-4 shadow-sm"
+      >
+        <div class="flex items-center gap-2.5">
+          <!-- Search Bar Tiket -->
+          <form id="headerTrackForm" class="relative flex-1">
+            <input
+              type="text"
+              id="headerTicketInput"
+              placeholder="Lacak tiket laporan (SMK-2026-...)..."
+              class="w-full pl-9 pr-14 py-2.5 rounded-full bg-white text-brandCharcoal placeholder-slate-400 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-brandOrange"
+            />
+            <i
+              data-lucide="search"
+              class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+            ></i>
+            <button
+              type="submit"
+              class="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-brandGreen text-white text-[10px] font-bold hover:bg-brandGreenDark transition"
+            >
+              Cek
+            </button>
+          </form>
+
+          <!-- Ikon Profil Bulat Kanan Atas -->
+          <button
+            type="button"
+            id="btnOpenProfilModal"
+            aria-label="Profil Akun Warga"
+            class="w-10 h-10 rounded-full bg-white text-brandGreen flex items-center justify-center shadow-sm border-2 border-emerald-200 shrink-0 active:scale-95 transition relative"
           >
-            <div
-              class="absolute -top-14 -right-14 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"
-            ></div>
-
-            <!-- Baris Identitas & Satu Tombol Masuk / Daftar -->
-            <div
-              class="flex items-center justify-between gap-2 mb-4 relative z-10"
-            >
-              <div class="flex items-center gap-2">
-                <div
-                  class="w-9 h-9 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center text-brandOrange shadow-sm"
-                >
-                  <i data-lucide="recycle" class="w-5 h-5 stroke-[2.5]"></i>
-                </div>
-                <div>
-                  <span
-                    class="text-base font-extrabold tracking-tight block leading-none"
-                  >
-                    Sampah<span class="text-brandOrange">ku</span>
-                  </span>
-                  <span class="text-[10px] text-emerald-100">
-                    Ramah Lingkungan
-                  </span>
-                </div>
-              </div>
-
-              <a
-                href="login.html"
-                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white text-brandGreen text-xs font-extrabold shadow-md active:scale-95 transition shrink-0"
-              >
-                <i
-                  data-lucide="user-check"
-                  class="w-3.5 h-3.5 text-brandOrange"
-                ></i>
-                <span>Masuk / Daftar</span>
-              </a>
-            </div>
-
-            <!-- Judul Utama -->
-            <div class="space-y-1.5 relative z-10">
-              <h1 class="text-xl font-extrabold leading-snug tracking-tight">
-                Kelola Sampah Jadi Lebih
-                <span class="text-brandOrange">Mudah</span> &amp; Bernilai
-              </h1>
-              <p class="text-xs text-emerald-100/95 leading-relaxed">
-                Jemput sampah terpilah, lapor tumpukan, &amp; pantau tiket
-                secara real-time langsung dari HP.
-              </p>
-            </div>
-          </div>
-
-          <!-- Floating Card Info Pilah + Aksi Cepat (Masuk / Daftar Digabung) -->
-          <div class="px-2 -mt-11 relative z-20">
-            <div
-              class="bg-white rounded-3xl p-3.5 shadow-md border border-slate-200/70 flex items-center justify-between gap-2"
-            >
-              <!-- Pengganti EcoStats: SiapPilah -->
-              <div
-                class="bg-brandLightBg rounded-2xl px-3 py-2.5 flex-1 border border-emerald-100 min-w-0"
-              >
-                <div class="flex items-center gap-1.5 mb-0.5">
-                  <span
-                    class="w-5 h-5 rounded-md bg-brandGreen text-white flex items-center justify-center shrink-0"
-                  >
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                  </span>
-                  <span class="text-[11px] font-extrabold text-brandGreen truncate"
-                    >SiapPilah</span
-                  >
-                </div>
-                <p
-                  class="text-sm font-extrabold text-brandCharcoal leading-tight truncate"
-                >
-                  6 Jenis Pilah
-                </p>
-                <p class="text-[10px] text-slate-500 font-semibold truncate">
-                  Gratis Lapor &amp; Jemput
-                </p>
-              </div>
-
-              <!-- Aksi Cepat: Jemput, Hitung, Masuk / Daftar -->
-              <div class="flex items-center gap-2 pr-0.5 shrink-0">
-                <a
-                  href="login.html"
-                  class="flex flex-col items-center gap-1 group"
-                >
-                  <div
-                    class="w-10 h-10 rounded-2xl bg-brandGreen text-white flex items-center justify-center shadow-sm group-active:scale-95 transition"
-                  >
-                    <i data-lucide="truck" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-[10px] font-bold text-slate-700"
-                    >Jemput</span
-                  >
-                </a>
-
-                <a
-                  href="#kalkulator"
-                  class="flex flex-col items-center gap-1 group"
-                >
-                  <div
-                    class="w-10 h-10 rounded-2xl bg-brandOrange text-white flex items-center justify-center shadow-sm group-active:scale-95 transition"
-                  >
-                    <i data-lucide="calculator" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-[10px] font-bold text-slate-700"
-                    >Hitung</span
-                  >
-                </a>
-
-                <a
-                  href="login.html"
-                  class="flex flex-col items-center gap-1 group"
-                >
-                  <div
-                    class="w-10 h-10 rounded-2xl bg-emerald-100 text-brandGreen flex items-center justify-center shadow-sm group-active:scale-95 transition"
-                  >
-                    <i data-lucide="log-in" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-[10px] font-bold text-slate-700"
-                    >Akun</span
-                  >
-                </a>
-              </div>
-            </div>
-          </div>
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span
+              class="w-2.5 h-2.5 rounded-full bg-brandGreenMid border-2 border-white absolute -bottom-0.5 -right-0.5"
+            ></span>
+          </button>
         </div>
+      </header>
 
-        <!-- GRID 4 LAYANAN UTAMA -->
-        <section id="layanan" class="px-4">
-          <div
-            class="bg-white rounded-3xl p-4 border border-slate-200/70 shadow-sm space-y-3"
-          >
-            <div class="flex items-center justify-between">
-              <h2 class="text-xs font-extrabold text-brandCharcoal">
-                Layanan Utama SampahKu
-              </h2>
-              <span class="text-[10px] font-bold text-brandGreen"
-                >100% Terpilah</span
-              >
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 text-center">
-              <a
-                href="login.html"
-                class="flex flex-col items-center gap-1.5 group"
-              >
-                <div
-                  class="w-12 h-12 rounded-2xl bg-emerald-100 text-brandGreen flex items-center justify-center group-active:scale-95 transition"
-                >
-                  <i data-lucide="truck" class="w-6 h-6"></i>
-                </div>
-                <span
-                  class="text-[10px] font-bold text-brandCharcoal leading-tight"
-                  >Jemput<br />Sampah</span
-                >
-              </a>
-
-              <a
-                href="#kalkulator"
-                class="flex flex-col items-center gap-1.5 group"
-              >
-                <div
-                  class="w-12 h-12 rounded-2xl bg-amber-100 text-brandOrangeDark flex items-center justify-center group-active:scale-95 transition"
-                >
-                  <i data-lucide="recycle" class="w-6 h-6"></i>
-                </div>
-                <span
-                  class="text-[10px] font-bold text-brandCharcoal leading-tight"
-                  >Daur<br />Ulang</span
-                >
-              </a>
-
-              <a
-                href="#kalkulator"
-                class="flex flex-col items-center gap-1.5 group"
-              >
-                <div
-                  class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center group-active:scale-95 transition"
-                >
-                  <i data-lucide="wallet" class="w-6 h-6"></i>
-                </div>
-                <span
-                  class="text-[10px] font-bold text-brandCharcoal leading-tight"
-                  >Bank<br />Sampah</span
-                >
-              </a>
-
-              <a
-                href="login.html"
-                class="flex flex-col items-center gap-1.5 group"
-              >
-                <div
-                  class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center group-active:scale-95 transition"
-                >
-                  <i data-lucide="building-2" class="w-6 h-6"></i>
-                </div>
-                <span
-                  class="text-[10px] font-bold text-brandCharcoal leading-tight"
-                  >Mitra &amp;<br />Bisnis</span
-                >
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <!-- SLIDESHOW BERWARNA: 4 LANGKAH MUDAH SAMPAHKU -->
-        <section id="tentang" class="px-4 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <div>
-              <span
-                class="text-[10px] font-extrabold uppercase tracking-wider text-brandGreen"
-                >Panduan Alur</span
-              >
-              <h2 class="text-sm font-extrabold text-brandCharcoal">
-                4 Langkah Mudah SampahKu
-              </h2>
-            </div>
-
-            <div class="flex items-center gap-1.5">
-              <button
-                type="button"
-                id="prevSlideBtn"
-                aria-label="Langkah sebelumnya"
-                class="w-7 h-7 rounded-full bg-white border border-slate-200 text-brandCharcoal flex items-center justify-center shadow-sm active:scale-95 transition"
-              >
-                <i data-lucide="chevron-left" class="w-4 h-4"></i>
-              </button>
-              <button
-                type="button"
-                id="nextSlideBtn"
-                aria-label="Langkah berikutnya"
-                class="w-7 h-7 rounded-full bg-brandGreen text-white flex items-center justify-center shadow-sm active:scale-95 transition"
-              >
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Track Slideshow -->
-          <div
-            id="stepsCarousel"
-            class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
-          >
-            <!-- Slide 1: Hijau Zamrud -->
+      <!-- MAIN CONTENT -->
+      <main class="flex-1">
+        <!-- TAB 1: BERANDA ALA GOJEK -->
+        <section id="tab-home" class="tab-view space-y-4">
+          <!-- Latar Hijau Melengkung + Kartu Ringkasan Tiket -->
+          <div class="relative">
             <div
-              class="step-slide min-w-full snap-center rounded-3xl p-4 text-white bg-gradient-to-br from-brandGreenDark via-brandGreen to-brandGreenMid shadow-md flex flex-col justify-between min-h-[146px]"
+              class="bg-brandGreen h-28 rounded-b-[2rem] px-4 pt-1 text-white"
             >
               <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-[11px] text-emerald-100/90">
+                    Selamat datang kembali,
+                  </p>
+                  <h1 class="text-base font-extrabold tracking-tight">
+                    <span id="headerUserName">Warga SampahKu</span>
+                  </h1>
+                </div>
                 <span
-                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 text-[10px] font-extrabold tracking-wide"
-                >
-                  <i data-lucide="sparkles" class="w-3 h-3"></i>
-                  LANGKAH 01 / 04
-                </span>
-                <span
-                  class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center"
-                >
-                  <i data-lucide="layers" class="w-5 h-5 text-emerald-100"></i>
-                </span>
-              </div>
-              <div class="mt-3 space-y-1">
-                <h3 class="text-base font-extrabold">
-                  Pilah Sampah Dari Rumah
-                </h3>
-                <p class="text-xs text-emerald-50/95 leading-relaxed">
-                  Pisahkan plastik PET, kertas &amp; dus, logam, elektronik,
-                  jelantah, serta botol kaca agar bersih dan siap olah.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 2: Oranye Hangat -->
-            <div
-              class="step-slide min-w-full snap-center rounded-3xl p-4 text-white bg-gradient-to-br from-amber-600 via-brandOrange to-amber-400 shadow-md flex flex-col justify-between min-h-[146px]"
-            >
-              <div class="flex items-center justify-between">
-                <span
-                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/25 text-[10px] font-extrabold tracking-wide"
-                >
-                  <i data-lucide="calendar-check" class="w-3 h-3"></i>
-                  LANGKAH 02 / 04
-                </span>
-                <span
-                  class="w-9 h-9 rounded-2xl bg-white/20 flex items-center justify-center"
-                >
-                  <i data-lucide="send" class="w-5 h-5 text-white"></i>
-                </span>
-              </div>
-              <div class="mt-3 space-y-1">
-                <h3 class="text-base font-extrabold">
-                  Jadwalkan Penjemputan
-                </h3>
-                <p class="text-xs text-amber-50 leading-relaxed">
-                  Masuk atau daftar akun warga, pilih kategori sampah &amp;
-                  lokasi, lalu kirim laporan untuk dapat nomor tiket otomatis.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 3: Biru Cerah -->
-            <div
-              class="step-slide min-w-full snap-center rounded-3xl p-4 text-white bg-gradient-to-br from-sky-800 via-sky-600 to-cyan-500 shadow-md flex flex-col justify-between min-h-[146px]"
-            >
-              <div class="flex items-center justify-between">
-                <span
-                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 text-[10px] font-extrabold tracking-wide"
-                >
-                  <i data-lucide="scale" class="w-3 h-3"></i>
-                  LANGKAH 03 / 04
-                </span>
-                <span
-                  class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center"
-                >
-                  <i data-lucide="truck" class="w-5 h-5 text-sky-100"></i>
-                </span>
-              </div>
-              <div class="mt-3 space-y-1">
-                <h3 class="text-base font-extrabold">
-                  Petugas Datang &amp; Menimbang
-                </h3>
-                <p class="text-xs text-sky-50 leading-relaxed">
-                  Tim kebersihan menuju titik lokasi, memverifikasi kondisi
-                  sampah, dan mengangkutnya secara rapi &amp; terukur.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 4: Ungu Indigo -->
-            <div
-              class="step-slide min-w-full snap-center rounded-3xl p-4 text-white bg-gradient-to-br from-indigo-900 via-indigo-700 to-purple-600 shadow-md flex flex-col justify-between min-h-[146px]"
-            >
-              <div class="flex items-center justify-between">
-                <span
-                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 text-[10px] font-extrabold tracking-wide"
-                >
-                  <i data-lucide="check-circle-2" class="w-3 h-3"></i>
-                  LANGKAH 04 / 04
-                </span>
-                <span
-                  class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center"
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/15 text-[10px] font-bold border border-white/20"
                 >
                   <i
-                    data-lucide="tree-pine"
-                    class="w-5 h-5 text-indigo-100"
+                    data-lucide="shield-check"
+                    class="w-3 h-3 text-brandOrange"
                   ></i>
+                  Akun Warga
                 </span>
               </div>
-              <div class="mt-3 space-y-1">
-                <h3 class="text-base font-extrabold">
-                  Pantau Tiket &amp; Jaga Bumi
-                </h3>
-                <p class="text-xs text-indigo-50 leading-relaxed">
-                  Cek progres penanganan tiket dari Pending hingga Selesai dan
-                  wujudkan lingkungan sekitar yang bersih &amp; lestari.
+            </div>
+
+            <!-- Floating Card Status Laporan -->
+            <div class="px-4 -mt-12">
+              <div
+                class="bg-white rounded-3xl p-3.5 shadow-md border border-slate-200/70 flex items-center justify-between gap-2"
+              >
+                <div
+                  class="bg-brandLightBg rounded-2xl px-3 py-2.5 flex-1 border border-emerald-100"
+                >
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <div
+                      class="w-5 h-5 rounded-md bg-brandGreen text-white flex items-center justify-center"
+                    >
+                      <i data-lucide="recycle" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <span class="text-[11px] font-extrabold text-brandGreen"
+                      >TiketKu</span
+                    >
+                  </div>
+                  <div class="flex items-baseline gap-2">
+                    <p
+                      id="statTotal"
+                      class="text-lg font-extrabold text-brandCharcoal leading-none"
+                    >
+                      0
+                    </p>
+                    <span class="text-[10px] text-slate-500 font-semibold"
+                      >Total Laporan</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center gap-2 mt-1.5 text-[10px] font-bold"
+                  >
+                    <span class="text-brandOrangeDark"
+                      >Proses: <strong id="statProses">0</strong></span
+                    >
+                    <span class="text-slate-300">&bull;</span>
+                    <span class="text-brandGreenMid"
+                      >Selesai: <strong id="statSelesai">0</strong></span
+                    >
+                  </div>
+                </div>
+
+                <!-- 3 Tombol Aksi Cepat -->
+                <div class="flex items-center gap-2 pr-1">
+                  <button
+                    type="button"
+                    data-go-tab="lapor"
+                    class="flex flex-col items-center gap-1 group"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-brandGreen text-white flex items-center justify-center shadow-sm group-active:scale-95 transition"
+                    >
+                      <i data-lucide="plus" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-700"
+                      >Lapor</span
+                    >
+                  </button>
+
+                  <button
+                    type="button"
+                    data-go-tab="tiket"
+                    class="flex flex-col items-center gap-1 group"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-brandOrange text-white flex items-center justify-center shadow-sm group-active:scale-95 transition"
+                    >
+                      <i data-lucide="history" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-700"
+                      >Riwayat</span
+                    >
+                  </button>
+
+                  <button
+                    type="button"
+                    id="btnQuickProfil"
+                    class="flex flex-col items-center gap-1 group"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-emerald-100 text-brandGreen flex items-center justify-center shadow-sm group-active:scale-95 transition"
+                    >
+                      <i data-lucide="user-check" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-700"
+                      >Profil</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRID LAYANAN UTAMA (4 IKON) -->
+          <div class="px-4">
+            <div
+              class="bg-white rounded-3xl p-4 border border-slate-200/70 shadow-sm"
+            >
+              <div class="grid grid-cols-4 gap-2 text-center">
+                <button
+                  type="button"
+                  data-go-tab="lapor"
+                  data-preset-layanan="Laporan Tumpukan"
+                  class="quick-service-btn flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-emerald-100 text-brandGreen flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="camera" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Lapor<br />Tumpukan</span
+                  >
+                </button>
+
+                <button
+                  type="button"
+                  data-go-tab="lapor"
+                  data-preset-layanan="Angkut Terjadwal"
+                  class="quick-service-btn flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-amber-100 text-brandOrangeDark flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="truck" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Jemput<br />Sampah</span
+                  >
+                </button>
+
+                <button
+                  type="button"
+                  data-go-tab="tiket"
+                  class="flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="ticket" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Lacak<br />Tiket</span
+                  >
+                </button>
+
+                <button
+                  type="button"
+                  data-go-tab="info"
+                  class="flex flex-col items-center gap-1.5 group"
+                >
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center group-active:scale-95 transition"
+                  >
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                  </div>
+                  <span
+                    class="text-[11px] font-bold text-brandCharcoal leading-tight"
+                    >Panduan<br />Pilah</span
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- BANNER AJAKAN KEBERSIHAN -->
+          <div class="px-4">
+            <div
+              class="bg-gradient-to-r from-brandGreenDark via-brandGreen to-brandGreenMid rounded-3xl p-4 text-white flex items-center justify-between gap-3 shadow-sm"
+            >
+              <div class="space-y-1">
+                <span
+                  class="inline-block px-2 py-0.5 rounded-full bg-brandOrange text-brandCharcoal text-[9px] font-extrabold uppercase"
+                >
+                  Bebas Biaya
+                </span>
+                <h2 class="text-sm font-extrabold leading-snug">
+                  Lingkungan Bersih Mulai dari Laporanmu
+                </h2>
+                <p class="text-[11px] text-emerald-100 leading-relaxed">
+                  Foto titik sampah, kirim dalam 30 detik, pantau petugas sampai
+                  tuntas.
+                </p>
+              </div>
+              <button
+                type="button"
+                data-go-tab="lapor"
+                class="w-10 h-10 rounded-full bg-white text-brandGreen flex items-center justify-center shrink-0 shadow active:scale-95 transition"
+                aria-label="Buat laporan sekarang"
+              >
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- EDUKASI & TARIF SAMPAH (HORIZONTAL CAROUSEL) -->
+          <div class="px-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-extrabold text-brandCharcoal">
+                Panduan &amp; Tarif Pemilahan
+              </h3>
+              <span class="text-[11px] text-brandGreen font-bold"
+                >Geser &rarr;</span
+              >
+            </div>
+
+            <div
+              id="edukasiCardsContainer"
+              class="flex gap-3 overflow-x-auto pb-1"
+            >
+              <div
+                class="min-w-[220px] bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-sm space-y-1.5"
+              >
+                <p class="text-xs font-extrabold text-brandCharcoal">
+                  Memuat panduan...
                 </p>
               </div>
             </div>
           </div>
 
-          <!-- Indikator Titik Slide -->
-          <div
-            id="stepDots"
-            class="flex items-center justify-center gap-1.5 pt-0.5"
-          >
-            <button
-              type="button"
-              data-slide="0"
-              aria-label="Slide 1"
-              class="step-dot w-5 h-2 rounded-full bg-brandGreen transition-all"
-            ></button>
-            <button
-              type="button"
-              data-slide="1"
-              aria-label="Slide 2"
-              class="step-dot w-2 h-2 rounded-full bg-slate-300 transition-all"
-            ></button>
-            <button
-              type="button"
-              data-slide="2"
-              aria-label="Slide 3"
-              class="step-dot w-2 h-2 rounded-full bg-slate-300 transition-all"
-            ></button>
-            <button
-              type="button"
-              data-slide="3"
-              aria-label="Slide 4"
-              class="step-dot w-2 h-2 rounded-full bg-slate-300 transition-all"
-            ></button>
-          </div>
-        </section>
-
-        <!-- KALKULATOR SIMULASI HARGA & PANDUAN PEMILAHAN (6 KATEGORI) -->
-        <section id="kalkulator" class="px-4 space-y-2.5">
-          <div class="flex items-end justify-between">
-            <div>
-              <span
-                class="text-[10px] font-extrabold uppercase tracking-wider text-brandOrangeDark"
-                >Simulasi Nilai Sampah</span
-              >
-              <h2 class="text-sm font-extrabold text-brandCharcoal">
-                Kalkulator Harga &amp; Panduan Pilah
-              </h2>
-            </div>
-            <span
-              class="text-[10px] font-bold text-brandGreen bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/70"
-              >6 Kategori</span
-            >
-          </div>
-
-          <div
-            class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-4"
-          >
-            <!-- Grid 6 Kategori Sampah -->
-            <div class="space-y-1.5">
-              <label class="block text-[11px] font-bold text-slate-600">
-                1. Pilih Jenis Sampah
-              </label>
-              <div class="grid grid-cols-2 gap-2" id="category-grid">
-                <button
-                  type="button"
-                  onclick="selectCategory('plastik', 3500)"
-                  class="cat-btn active p-2.5 rounded-2xl border-2 border-brandGreen bg-emerald-50/60 text-left transition-all flex items-start gap-2.5"
-                  data-cat="plastik"
-                >
-                  <div
-                    class="w-8 h-8 rounded-xl bg-emerald-100 text-brandGreen flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="milk" class="w-4 h-4"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p
-                      class="font-extrabold text-[11px] text-brandCharcoal leading-tight"
-                    >
-                      Plastik PET / Botol
-                    </p>
-                    <p
-                      class="text-[10px] font-bold text-brandOrangeDark mt-0.5"
-                    >
-                      Rp 3.500 / kg
-                    </p>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onclick="selectCategory('kertas', 2500)"
-                  class="cat-btn p-2.5 rounded-2xl border border-slate-200 bg-white text-left transition-all flex items-start gap-2.5"
-                  data-cat="kertas"
-                >
-                  <div
-                    class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="file-text" class="w-4 h-4"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p
-                      class="font-extrabold text-[11px] text-brandCharcoal leading-tight"
-                    >
-                      Kertas &amp; Dus
-                    </p>
-                    <p
-                      class="text-[10px] font-bold text-brandOrangeDark mt-0.5"
-                    >
-                      Rp 2.500 / kg
-                    </p>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onclick="selectCategory('logam', 8000)"
-                  class="cat-btn p-2.5 rounded-2xl border border-slate-200 bg-white text-left transition-all flex items-start gap-2.5"
-                  data-cat="logam"
-                >
-                  <div
-                    class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="component" class="w-4 h-4"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p
-                      class="font-extrabold text-[11px] text-brandCharcoal leading-tight"
-                    >
-                      Kaleng &amp; Logam
-                    </p>
-                    <p
-                      class="text-[10px] font-bold text-brandOrangeDark mt-0.5"
-                    >
-                      Rp 8.000 / kg
-                    </p>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onclick="selectCategory('elektronik', 15000)"
-                  class="cat-btn p-2.5 rounded-2xl border border-slate-200 bg-white text-left transition-all flex items-start gap-2.5"
-                  data-cat="elektronik"
-                >
-                  <div
-                    class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="laptop" class="w-4 h-4"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p
-                      class="font-extrabold text-[11px] text-brandCharcoal leading-tight"
-                    >
-                      Elektronik Bekas
-                    </p>
-                    <p
-                      class="text-[10px] font-bold text-brandOrangeDark mt-0.5"
-                    >
-                      Rp 15.000 / kg
-                    </p>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onclick="selectCategory('minyak', 6000)"
-                  class="cat-btn p-2.5 rounded-2xl border border-slate-200 bg-white text-left transition-all flex items-start gap-2.5"
-                  data-cat="minyak"
-                >
-                  <div
-                    class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="droplet" class="w-4 h-4"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p
-                      class="font-extrabold text-[11px] text-brandCharcoal leading-tight"
-                    >
-                      Minyak Jelantah
-                    </p>
-                    <p
-                      class="text-[10px] font-bold text-brandOrangeDark mt-0.5"
-                    >
-                      Rp 6.000 / Liter
-                    </p>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onclick="selectCategory('kaca', 1200)"
-                  class="cat-btn p-2.5 rounded-2xl border border-slate-200 bg-white text-left transition-all flex items-start gap-2.5"
-                  data-cat="kaca"
-                >
-                  <div
-                    class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="wine" class="w-4 h-4"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <p
-                      class="font-extrabold text-[11px] text-brandCharcoal leading-tight"
-                    >
-                      Botol Kaca
-                    </p>
-                    <p
-                      class="text-[10px] font-bold text-brandOrangeDark mt-0.5"
-                    >
-                      Rp 1.200 / kg
-                    </p>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            <!-- Kontrol Berat / Volume Rapi -->
+          <!-- KALKULATOR ESTIMASI NILAI SAMPAH -->
+          <div class="px-4 pb-2">
             <div
-              class="p-3 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2.5"
+              class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3"
             >
-              <div class="flex items-center justify-between gap-2">
-                <label
-                  for="weightInputNum"
-                  class="text-[11px] font-bold text-slate-700"
+              <div class="flex items-center justify-between">
+                <h3
+                  class="text-sm font-extrabold text-brandCharcoal flex items-center gap-1.5"
                 >
-                  2. Berat / Volume Estimasi
-                </label>
-
-                <div class="flex items-center gap-1.5">
-                  <input
-                    type="number"
-                    id="weightInputNum"
-                    min="1"
-                    max="500"
-                    value="5"
-                    oninput="syncWeightFromInput()"
-                    class="w-16 px-2 py-1 rounded-lg border border-slate-300 bg-white text-xs font-extrabold text-brandCharcoal text-center focus:outline-none focus:ring-2 focus:ring-brandGreen"
-                  />
-                  <span
-                    id="weightUnitLabel"
-                    class="text-[11px] font-extrabold text-brandGreen bg-emerald-100/80 px-2 py-1 rounded-lg"
-                    >Kg</span
-                  >
-                </div>
+                  <i
+                    data-lucide="calculator"
+                    class="w-4 h-4 text-brandOrange"
+                  ></i>
+                  Simulasi Nilai Sampah
+                </h3>
+                <span
+                  id="mobileWeightBadge"
+                  class="text-xs font-extrabold text-brandGreen bg-emerald-50 px-2.5 py-0.5 rounded-lg"
+                  >5 Kg</span
+                >
               </div>
+
+              <div
+                id="calcCategoryButtons"
+                class="grid grid-cols-2 gap-2"
+              ></div>
 
               <input
                 type="range"
-                id="weightRange"
+                id="mobileWeightRange"
                 min="1"
-                max="100"
+                max="50"
                 value="5"
-                oninput="syncWeightFromRange()"
                 class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brandGreen"
               />
+
               <div
-                class="flex justify-between text-[10px] font-semibold text-slate-400"
+                class="flex items-center justify-between bg-brandCharcoal text-white px-3.5 py-2.5 rounded-2xl"
               >
-                <span id="minLabel">1 Kg</span>
-                <span id="midLabel">50 Kg</span>
-                <span id="maxLabel">100 Kg</span>
-              </div>
-            </div>
-
-            <!-- Panduan Pemilahan Beraksen -->
-            <div
-              class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-[11px] text-slate-700 flex items-start gap-2"
-            >
-              <i
-                data-lucide="info"
-                class="w-4 h-4 text-brandOrangeDark shrink-0 mt-0.5"
-              ></i>
-              <div>
-                <p class="font-extrabold text-brandCharcoal text-[11px]">
-                  Tips Pemilahan
-                </p>
-                <p id="tip-text" class="leading-relaxed text-slate-600 mt-0.5">
-                  Pastikan botol plastik bersih, kosongkan cairan, dan pipihkan
-                  bila memungkinkan.
-                </p>
-              </div>
-            </div>
-
-            <!-- Kartu Ringkasan Estimasi -->
-            <div
-              class="bg-gradient-to-br from-brandCharcoal to-[#2a3b35] text-white rounded-2xl p-4 space-y-3 shadow-md"
-            >
-              <div class="flex items-start justify-between gap-2">
                 <div>
-                  <p class="text-[10px] uppercase tracking-wider text-slate-300">
-                    Estimasi Nilai Tukar
-                  </p>
+                  <p class="text-[10px] text-slate-300">Estimasi Nilai Tukar</p>
                   <p
-                    class="text-2xl font-extrabold text-brandOrange mt-0.5"
-                    id="estimatedEarnings"
+                    id="mobileEstResult"
+                    class="text-base font-extrabold text-brandOrange"
                   >
                     Rp 17.500
                   </p>
                 </div>
-                <span
-                  id="summaryCO2"
-                  class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-200 bg-white/10 px-2.5 py-1 rounded-full shrink-0"
+                <button
+                  type="button"
+                  data-go-tab="lapor"
+                  class="px-3.5 py-1.5 rounded-full bg-brandGreenMid text-white text-xs font-bold active:scale-95 transition"
                 >
-                  <i data-lucide="tree-pine" class="w-3 h-3"></i>
-                  ~7.5 Kg CO2
-                </span>
+                  Jemput Sekarang
+                </button>
               </div>
-
-              <div
-                class="grid grid-cols-2 gap-2 text-[11px] border-t border-white/10 pt-2.5"
-              >
-                <div>
-                  <span class="text-slate-400 block text-[10px]"
-                    >Kategori</span
-                  >
-                  <span
-                    id="summaryCategory"
-                    class="font-bold text-white truncate block"
-                    >Plastik PET / Botol</span
-                  >
-                </div>
-                <div class="text-right">
-                  <span class="text-slate-400 block text-[10px]"
-                    >Tarif Satuan</span
-                  >
-                  <span id="summaryRate" class="font-bold text-white block"
-                    >Rp 3.500 / kg</span
-                  >
-                </div>
-              </div>
-
-              <a
-                href="login.html"
-                class="w-full py-3 bg-brandGreenMid hover:bg-brandGreen rounded-xl text-center text-xs font-extrabold text-white flex items-center justify-center gap-1.5 transition active:scale-[0.99]"
-              >
-                <span>Masuk / Daftar &amp; Jemput</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-              </a>
             </div>
           </div>
         </section>
 
-        <!-- FOOTER RINGKAS -->
-        <footer class="px-4 pt-1">
+        <!-- TAB 2: FORM PELAPORAN & UPLOAD FOTO BUKTI -->
+        <section id="tab-lapor" class="tab-view hidden px-4 pt-4 space-y-4">
           <div
-            class="bg-white rounded-3xl p-4 border border-slate-200/80 text-center space-y-1.5"
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm"
           >
-            <p class="text-xs font-extrabold text-brandCharcoal">
-              Sampah<span class="text-brandOrange">Ku</span> — Ekosistem
-              Pengelolaan Sampah Mandiri
+            <span
+              class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-50 text-brandGreen text-[10px] font-bold uppercase"
+              >Form Pelaporan Warga</span
+            >
+            <h2 class="text-base font-extrabold text-brandCharcoal mt-1">
+              Lapor Penumpukan / Minta Pengangkutan
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Nomor tiket otomatis diterbitkan setelah laporan dikirim.
             </p>
-            <p class="text-[10px] text-slate-500">
-              &copy; 2026 SampahKu Indonesia. Bersih Lingkungannya, Bernilai
-              Sampahnya.
-            </p>
+
+            <div id="warga-alert" class="hidden mt-3" role="alert"></div>
+
+            <form id="laporanForm" class="space-y-3.5 mt-4">
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="pelaporNama"
+                  >Nama Pelapor *</label
+                >
+                <input
+                  type="text"
+                  id="pelaporNama"
+                  required
+                  placeholder="Nama lengkap Anda"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                />
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="pelaporHp"
+                    >No. HP / WA *</label
+                  >
+                  <input
+                    type="tel"
+                    id="pelaporHp"
+                    required
+                    placeholder="081324885230"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="wilayahSelect"
+                    >Wilayah *</label
+                  >
+                  <select
+                    id="wilayahSelect"
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  ></select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="kategoriLaporan"
+                    >Kategori Sampah *</label
+                  >
+                  <select
+                    id="kategoriLaporan"
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  >
+                    <option value="" disabled selected>
+                      Pilih Kategori Sampah
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    class="block text-xs font-bold text-slate-700 mb-1"
+                    for="jenisLayanan"
+                    >Jenis Layanan *</label
+                  >
+                  <select
+                    id="jenisLayanan"
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                  >
+                    <option value="Angkut Terjadwal">Angkut Terjadwal</option>
+                    <option value="Laporan Tumpukan">Laporan Tumpukan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="alamatLokasi"
+                  >Alamat / Titik Lokasi Sampah *</label
+                >
+                <textarea
+                  id="alamatLokasi"
+                  rows="2"
+                  required
+                  placeholder="Jalan, Nomor Rumah, RT/RW, patokan sekitar..."
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                ></textarea>
+              </div>
+
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="catatanLaporan"
+                  >Catatan Tambahan (Opsional)</label
+                >
+                <input
+                  type="text"
+                  id="catatanLaporan"
+                  placeholder="Contoh: 2 karung botol plastik di depan pagar"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+                />
+              </div>
+
+              <div>
+                <label
+                  class="block text-xs font-bold text-slate-700 mb-1"
+                  for="fotoBukti"
+                  >Foto Bukti Kondisi Sampah (JPG/PNG, maks 5MB) *</label
+                >
+                <label
+                  for="fotoBukti"
+                  class="flex flex-col items-center justify-center p-4 border-2 border-dashed border-emerald-300 rounded-2xl bg-emerald-50/40 cursor-pointer hover:bg-emerald-50 transition"
+                >
+                  <i
+                    data-lucide="image-plus"
+                    class="w-6 h-6 text-brandGreen mb-1"
+                  ></i>
+                  <span
+                    id="fotoLabel"
+                    class="text-xs font-semibold text-brandCharcoal"
+                    >Ketuk untuk ambil atau pilih foto bukti</span
+                  >
+                  <span class="text-[10px] text-slate-400 mt-0.5"
+                    >Format: JPG, PNG, WEBP</span
+                  >
+                  <input
+                    type="file"
+                    id="fotoBukti"
+                    accept="image/jpeg,image/png,image/webp"
+                    required
+                    class="hidden"
+                  />
+                </label>
+                <img
+                  id="fotoPreview"
+                  alt="Preview bukti sampah"
+                  class="hidden mt-2.5 w-full h-36 object-cover rounded-2xl border border-slate-200"
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="btnSubmitLaporan"
+                class="w-full py-3 rounded-full bg-brandGreen hover:bg-brandGreenDark text-white text-xs font-extrabold shadow-md flex items-center justify-center gap-2 active:scale-[0.99] transition disabled:opacity-60"
+              >
+                <i data-lucide="send" class="w-4 h-4"></i> Kirim Laporan &amp;
+                Buat Tiket
+              </button>
+            </form>
           </div>
-        </footer>
+        </section>
+
+        <!-- TAB 3: CEK STATUS TIKET & RIWAYAT PENANGANAN -->
+        <section id="tab-tiket" class="tab-view hidden px-4 pt-4 space-y-4">
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3"
+          >
+            <h2 class="text-base font-extrabold text-brandCharcoal">
+              Cek Progres &amp; Riwayat Tiket
+            </h2>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="searchTicketField"
+                placeholder="Masukkan nomor tiket (cth: SMK-2026-0001)"
+                class="flex-1 px-3.5 py-2.5 rounded-full border border-slate-200 bg-slate-50 text-xs font-semibold uppercase focus:bg-white focus:ring-2 focus:ring-brandGreen outline-none"
+              />
+              <button
+                type="button"
+                id="btnCariTiket"
+                class="px-4 py-2.5 rounded-full bg-brandOrange text-white text-xs font-bold"
+              >
+                Lacak
+              </button>
+            </div>
+            <div id="hasilCariTiket"></div>
+          </div>
+
+          <div class="space-y-2.5">
+            <h3
+              class="text-xs font-extrabold uppercase tracking-wider text-slate-500"
+            >
+              Riwayat Laporan Saya
+            </h3>
+            <div id="daftarTiketList" class="space-y-2.5"></div>
+          </div>
+        </section>
+
+        <!-- TAB 4: PANDUAN & FAQ -->
+        <section id="tab-info" class="tab-view hidden px-4 pt-4 space-y-4">
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3"
+          >
+            <h2 class="text-base font-extrabold text-brandCharcoal">
+              Tentang Aplikasi SampahKu
+            </h2>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              SampahKu adalah platform pengelolaan dan monitoring sampah mandiri
+              untuk memudahkan warga melaporkan penumpukan sampah, menjadwalkan
+              pengangkutan, dan memantau tindak lanjut petugas kebersihan secara
+              transparan.
+            </p>
+            <div
+              class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5 text-xs"
+            >
+              <p class="font-bold text-brandCharcoal">Alur Penanganan Tiket:</p>
+              <p class="text-slate-600">
+                1. <strong>Pending</strong> — Laporan diterima &amp;
+                diverifikasi admin.
+              </p>
+              <p class="text-slate-600">
+                2. <strong>Diproses</strong> — Petugas kebersihan menuju lokasi.
+              </p>
+              <p class="text-slate-600">
+                3. <strong>Selesai</strong> — Sampah telah diangkut &amp;
+                dibersihkan.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-2.5"
+          >
+            <h3 class="text-sm font-extrabold text-brandCharcoal">
+              Pertanyaan Umum (FAQ)
+            </h3>
+            <details class="p-3 rounded-xl bg-slate-50 text-xs">
+              <summary class="font-bold text-brandCharcoal cursor-pointer">
+                Apakah pelaporan sampah dikenakan biaya?
+              </summary>
+              <p class="text-slate-600 mt-1.5 leading-relaxed">
+                Pelaporan tumpukan sampah dan penjemputan sampah terpilah
+                minimal 5 kg gratis tanpa biaya tambahan.
+              </p>
+            </details>
+            <details class="p-3 rounded-xl bg-slate-50 text-xs">
+              <summary class="font-bold text-brandCharcoal cursor-pointer">
+                Bagaimana cara mengecek status laporan saya?
+              </summary>
+              <p class="text-slate-600 mt-1.5 leading-relaxed">
+                Buka tab <strong>Riwayat</strong> untuk melihat seluruh riwayat
+                laporan akun Anda atau masukkan nomor tiket pada kolom pencarian
+                atas.
+              </p>
+            </details>
+          </div>
+        </section>
       </main>
+
+      <!-- BOTTOM MOBILE NAVIGATION BAR -->
+      <nav
+        class="fixed bottom-0 z-50 w-full max-w-[440px] bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 pt-2 safe-bottom grid grid-cols-4 text-center shadow-[0_-4px_16px_rgba(0,0,0,0.05)]"
+      >
+        <button
+          type="button"
+          data-nav="home"
+          class="nav-tab-btn active flex flex-col items-center justify-center gap-1 py-1 text-brandGreen"
+        >
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <span class="text-[11px] font-bold">Beranda</span>
+        </button>
+
+        <button
+          type="button"
+          data-nav="lapor"
+          class="nav-tab-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-400"
+        >
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Lapor</span>
+        </button>
+
+        <button
+          type="button"
+          data-nav="tiket"
+          class="nav-tab-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-400"
+        >
+          <i data-lucide="receipt-text" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Riwayat</span>
+        </button>
+
+        <button
+          type="button"
+          data-nav="info"
+          class="nav-tab-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-400"
+        >
+          <i data-lucide="compass" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Panduan</span>
+        </button>
+      </nav>
     </div>
 
-    <script>
+    <!-- BOTTOM SHEET PROFIL WARGA -->
+    <div
+      id="profilWargaModal"
+      class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end justify-center"
+    >
+      <div
+        class="bg-white rounded-t-3xl p-5 max-w-[440px] w-full shadow-2xl space-y-4"
+      >
+        <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto"></div>
+
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 rounded-full bg-brandGreen text-white flex items-center justify-center font-extrabold text-base shrink-0"
+          >
+            <i data-lucide="user" class="w-6 h-6"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3
+              id="modalProfilNama"
+              class="text-base font-extrabold text-brandCharcoal truncate"
+            >
+              Warga SampahKu
+            </h3>
+            <p id="modalProfilEmail" class="text-xs text-slate-500 truncate">
+              warga@sampahku.id
+            </p>
+            <span
+              class="inline-block mt-1 px-2 py-0.5 rounded-full bg-emerald-50 text-brandGreen text-[10px] font-bold"
+              >Warga Terverifikasi</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs"
+        >
+          <div class="flex justify-between">
+            <span class="text-slate-500">Nomor HP / WA</span>
+            <span id="modalProfilHp" class="font-bold text-brandCharcoal"
+              >-</span
+            >
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Peran Akun</span>
+            <span class="font-bold text-brandGreen">Warga / Pelapor</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <button
+            type="button"
+            id="btnCloseProfilModal"
+            class="py-2.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold"
+          >
+            Tutup
+          </button>
+          <button
+            type="button"
+            id="btnLogoutWarga"
+            class="py-2.5 rounded-full bg-rose-600 text-white text-xs font-extrabold flex items-center justify-center gap-1.5"
+          >
+            <i data-lucide="log-out" class="w-4 h-4"></i> Keluar Akun
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL TIKET BERHASIL DIBUAT -->
+    <div
+      id="ticketSuccessModal"
+      class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl space-y-4"
+      >
+        <div
+          class="w-14 h-14 rounded-full bg-emerald-100 text-brandGreen flex items-center justify-center mx-auto"
+        >
+          <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-extrabold text-brandCharcoal">
+            Laporan Terkirim!
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Simpan nomor tiket berikut untuk memantau status penanganan:
+          </p>
+          <div
+            id="generatedTicketCode"
+            class="mt-3 py-2.5 px-3 rounded-2xl bg-amber-50 border border-amber-200 text-brandOrangeDark font-extrabold text-base tracking-wider"
+          >
+            SMK-2026-0001
+          </div>
+        </div>
+        <button
+          type="button"
+          id="btnCloseTicketModal"
+          class="w-full py-2.5 rounded-full bg-brandGreen text-white text-xs font-bold"
+        >
+          Lihat Status Tiket
+        </button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initDashboardWarga } from "../js/warga.js";
+      import { getCurrentUserAndProfile } from "../js/auth.js";
+
       lucide.createIcons();
+      await initDashboardWarga();
 
-      // --- SLIDESHOW 4 LANGKAH ---
-      const carousel = document.getElementById("stepsCarousel");
-      const dots = document.querySelectorAll(".step-dot");
-      const totalSlides = 4;
-      let activeSlideIndex = 0;
-
-      function goToSlide(idx) {
-        activeSlideIndex = ((idx % totalSlides) + totalSlides) % totalSlides;
-        if (carousel) {
-          carousel.scrollTo({
-            left: activeSlideIndex * carousel.clientWidth,
-            behavior: "smooth",
-          });
+      const profilModal = document.getElementById("profilWargaModal");
+      const openProfil = async () => {
+        const info = await getCurrentUserAndProfile();
+        if (info?.profil) {
+          document.getElementById("modalProfilNama").textContent =
+            info.profil.nama_lengkap || "Warga SampahKu";
+          document.getElementById("modalProfilHp").textContent =
+            info.profil.no_hp || "-";
         }
-        updateDots();
-      }
-
-      function updateDots() {
-        dots.forEach((dot, i) => {
-          if (i === activeSlideIndex) {
-            dot.classList.remove("w-2", "bg-slate-300");
-            dot.classList.add("w-5", "bg-brandGreen");
-          } else {
-            dot.classList.remove("w-5", "bg-brandGreen");
-            dot.classList.add("w-2", "bg-slate-300");
-          }
-        });
-      }
+        if (info?.user?.email) {
+          document.getElementById("modalProfilEmail").textContent =
+            info.user.email;
+        }
+        profilModal?.classList.remove("hidden");
+        profilModal?.classList.add("flex");
+      };
 
       document
-        .getElementById("prevSlideBtn")
-        ?.addEventListener("click", () => goToSlide(activeSlideIndex - 1));
+        .getElementById("btnOpenProfilModal")
+        ?.addEventListener("click", openProfil);
       document
-        .getElementById("nextSlideBtn")
-        ?.addEventListener("click", () => goToSlide(activeSlideIndex + 1));
-
-      dots.forEach((dot) => {
-        dot.addEventListener("click", () => {
-          goToSlide(Number(dot.dataset.slide || 0));
+        .getElementById("btnQuickProfil")
+        ?.addEventListener("click", openProfil);
+      document
+        .getElementById("btnCloseProfilModal")
+        ?.addEventListener("click", () => {
+          profilModal?.classList.add("hidden");
+          profilModal?.classList.remove("flex");
         });
-      });
-
-      carousel?.addEventListener("scroll", () => {
-        if (carousel.clientWidth > 0) {
-          const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
-          if (idx !== activeSlideIndex && idx >= 0 && idx < totalSlides) {
-            activeSlideIndex = idx;
-            updateDots();
-          }
+      profilModal?.addEventListener("click", (e) => {
+        if (e.target === profilModal) {
+          profilModal.classList.add("hidden");
+          profilModal.classList.remove("flex");
         }
       });
 
-      // --- KALKULATOR HARGA & PEMILAHAN ---
-      let currentRate = 3500;
-      let currentCategoryName = "Plastik PET / Botol";
-
-      const categoryTips = {
-        plastik:
-          "Pastikan botol plastik bersih, kosongkan cairan, dan pipihkan bila memungkinkan.",
-        kertas:
-          "Lipat kardus rapi dan pastikan kertas kering serta bebas minyak atau sisa makanan.",
-        logam:
-          "Bersihkan sisa cairan atau makanan pada kaleng agar tidak berbau dan aman ditangani.",
-        elektronik:
-          "Pisahkan perangkat elektronik rusak, kabel, charger, atau baterai ke wadah kering.",
-        minyak:
-          "Saring minyak jelantah dari ampas, dinginkan, lalu simpan di botol atau jerigen tertutup.",
-        kaca:
-          "Pastikan botol kaca utuh dan dipisah dari sampah bahan keras lain agar tidak pecah.",
-      };
-
-      const categoryNames = {
-        plastik: "Plastik PET / Botol",
-        kertas: "Kertas & Dus",
-        logam: "Kaleng & Logam",
-        elektronik: "Elektronik Bekas",
-        minyak: "Minyak Jelantah",
-        kaca: "Botol Kaca",
-      };
-
-      function selectCategory(catKey, rate) {
-        currentRate = rate;
-        currentCategoryName = categoryNames[catKey] || catKey;
-
-        document.querySelectorAll(".cat-btn").forEach((btn) => {
-          const aktif = btn.getAttribute("data-cat") === catKey;
-          btn.classList.toggle("border-2", aktif);
-          btn.classList.toggle("border-brandGreen", aktif);
-          btn.classList.toggle("bg-emerald-50/60", aktif);
-          btn.classList.toggle("border", !aktif);
-          btn.classList.toggle("border-slate-200", !aktif);
-          btn.classList.toggle("bg-white", !aktif);
+      document.querySelectorAll(".quick-service-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const jenis = btn.dataset.presetLayanan;
+          const selectEl = document.getElementById("jenisLayanan");
+          if (selectEl && jenis) {
+            selectEl.value = jenis;
+          }
         });
-
-        document.getElementById("tip-text").innerText =
-          categoryTips[catKey] || "Pilah sampah dengan rapi.";
-        updateCalculator();
-      }
-
-      function syncWeightFromRange() {
-        const rangeVal = Number(
-          document.getElementById("weightRange")?.value || 5,
-        );
-        const numInput = document.getElementById("weightInputNum");
-        if (numInput) numInput.value = rangeVal;
-        updateCalculator();
-      }
-
-      function syncWeightFromInput() {
-        const numInput = document.getElementById("weightInputNum");
-        const rangeEl = document.getElementById("weightRange");
-        let val = Number(numInput?.value || 1);
-        if (val < 1) val = 1;
-        if (val > 500) val = 500;
-        if (rangeEl) rangeEl.value = Math.min(val, 100);
-        updateCalculator();
-      }
-
-      function updateCalculator() {
-        const rawVal = Number(
-          document.getElementById("weightInputNum")?.value ||
-            document.getElementById("weightRange")?.value ||
-            5,
-        );
-        const weight = Math.max(1, rawVal);
-        const unit = currentCategoryName.includes("Minyak") ? "Liter" : "Kg";
-
-        const unitLabel = document.getElementById("weightUnitLabel");
-        if (unitLabel) unitLabel.innerText = unit;
-
-        document.getElementById("minLabel").innerText = `1 ${unit}`;
-        document.getElementById("midLabel").innerText = `50 ${unit}`;
-        document.getElementById("maxLabel").innerText = `100 ${unit}`;
-
-        const totalEarnings = weight * currentRate;
-        const co2Saved = (weight * 1.5).toFixed(1);
-
-        document.getElementById("estimatedEarnings").innerText =
-          `Rp ${totalEarnings.toLocaleString("id-ID")}`;
-        document.getElementById("summaryCategory").innerText =
-          currentCategoryName;
-        document.getElementById("summaryRate").innerText =
-          `Rp ${currentRate.toLocaleString("id-ID")} / ${unit}`;
-        document.getElementById("summaryCO2").innerHTML =
-          `<i data-lucide="tree-pine" class="w-3 h-3"></i> ~${co2Saved} ${unit} CO2`;
-
-        lucide.createIcons();
-      }
+      });
     </script>
   </body>
 </html>
