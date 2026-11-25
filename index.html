@@ -2,1086 +2,672 @@
 <html lang="id" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sampahku - Kelola Sampah Jadi Lebih Mudah & Ramah Lingkungan</title>
-    <!-- Tailwind CSS CDN -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Sampahku — Kelola Sampah Jadi Lebih Mudah &amp; Ramah Lingkungan</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              brandGreen: "#28b381",
-              brandGreenDark: "#1e8a63",
+              brandGreen: "#1b5e4b",
+              brandGreenMid: "#28b381",
+              brandGreenDark: "#124234",
               brandOrange: "#f9a03b",
               brandOrangeDark: "#e08620",
-              brandCharcoal: "#292f38",
-              brandCharcoalLight: "#39414d",
+              brandCharcoal: "#1d2925",
               brandLightBg: "#f4f9f6",
             },
             fontFamily: {
-              sans: ["Inter", "sans-serif"],
+              sans: ["Plus Jakarta Sans", "sans-serif"],
             },
           },
         },
       };
     </script>
     <style>
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 10px;
+      * {
+        -webkit-tap-highlight-color: transparent;
       }
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
+      body {
+        background-color: #e4ede8;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #28b381;
-        border-radius: 5px;
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #1e8a63;
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
-      .glass-card {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(40, 179, 129, 0.15);
+      .safe-bottom {
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.6rem);
       }
     </style>
   </head>
   <body
-    class="font-sans bg-slate-50 text-brandCharcoal antialiased flex flex-col min-h-screen"
+    class="font-sans text-brandCharcoal antialiased flex justify-center min-h-screen"
   >
-    <!-- NAVIGATION BAR -->
-    <header
-      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300"
-      id="navbar"
+    <!-- MOBILE APP SHELL (TANPA TOOLBAR ATAS) -->
+    <div
+      class="w-full max-w-[440px] bg-slate-50 min-h-screen shadow-2xl relative flex flex-col border-x border-slate-200/80 pb-24 overflow-x-hidden"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
-          <!-- Logo -->
-          <a href="#beranda" class="flex items-center space-x-3 group">
+      <!-- HERO SECTION MOBILE -->
+      <section
+        id="beranda"
+        class="relative bg-gradient-to-b from-brandGreenDark via-brandGreen to-brandGreenMid text-white px-5 pt-7 pb-9 rounded-b-[2.25rem] shadow-lg overflow-hidden"
+      >
+        <div
+          class="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"
+        ></div>
+
+        <!-- Brand Badge -->
+        <div class="flex items-center justify-between mb-5 relative z-10">
+          <div class="flex items-center gap-2.5">
             <div
-              class="w-11 h-11 bg-brandGreen rounded-xl flex items-center justify-center text-white shadow-md shadow-brandGreen/30 group-hover:scale-105 transition-transform"
+              class="w-10 h-10 bg-white/15 backdrop-blur-sm border border-white/25 rounded-2xl flex items-center justify-center text-brandOrange shadow-sm"
             >
-              <i data-lucide="recycle" class="w-6 h-6 stroke-[2.5]"></i>
+              <i data-lucide="recycle" class="w-5 h-5 stroke-[2.5]"></i>
             </div>
-            <span
-              class="text-2xl font-extrabold tracking-tight text-brandCharcoal"
-            >
-              Sampah<span class="text-brandOrange">ku</span>
-            </span>
-          </a>
+            <div>
+              <span class="text-lg font-extrabold tracking-tight block leading-none">
+                Sampah<span class="text-brandOrange">ku</span>
+              </span>
+              <span class="text-[10px] text-emerald-100">
+                Pengelolaan Sampah Terpadu
+              </span>
+            </div>
+          </div>
 
-          <!-- Desktop Nav Links -->
-          <nav
-            class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-700"
+          <a
+            href="login.html"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-brandOrange hover:bg-brandOrangeDark text-white text-xs font-extrabold shadow-md active:scale-95 transition"
           >
-            <a
-              href="#beranda"
-              class="hover:text-brandGreen transition-colors py-1 border-b-2 border-transparent hover:border-brandGreen"
-              >Beranda</a
-            >
-            <a
-              href="#layanan"
-              class="hover:text-brandGreen transition-colors py-1 border-b-2 border-transparent hover:border-brandGreen"
-              >Layanan</a
-            >
-            <a
-              href="#kalkulator"
-              class="hover:text-brandGreen transition-colors py-1 border-b-2 border-transparent hover:border-brandGreen"
-              >Panduan & Harga</a
-            >
-            <a
-              href="#tentang"
-              class="hover:text-brandGreen transition-colors py-1 border-b-2 border-transparent hover:border-brandGreen"
-              >Tentang Kami</a
-            >
-          </nav>
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+            <span>Masuk / Daftar</span>
+          </a>
+        </div>
 
-          <!-- CTA Button -->
-          <div class="hidden md:flex items-center space-x-4">
+        <!-- Headline & Subheadline -->
+        <div class="space-y-3 relative z-10">
+          <div
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-emerald-50 text-[11px] font-semibold border border-white/20"
+          >
+            <i data-lucide="leaf" class="w-3.5 h-3.5 text-brandOrange"></i>
+            <span>Solusi Ramah Lingkungan &amp; Mandiri</span>
+          </div>
+
+          <h1 class="text-2xl font-extrabold tracking-tight leading-snug">
+            Kelola Sampah Jadi Lebih
+            <span class="text-brandOrange underline decoration-wavy underline-offset-4">
+              Mudah
+            </span>
+            &amp; Bernilai
+          </h1>
+
+          <p class="text-xs text-emerald-100 leading-relaxed">
+            Sampahku membantu rumah tangga &amp; bisnis mengolah, menjual, dan
+            mendaur ulang sampah secara modern tanpa repot!
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="grid grid-cols-2 gap-2.5 pt-2">
             <a
               href="login.html"
-              class="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              class="py-3 px-3 rounded-2xl bg-white text-brandGreen text-xs font-extrabold flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition"
             >
-              <i data-lucide="truck" class="w-4 h-4 mr-2"></i>
-              Jadwalkan Penjemputan
+              <i data-lucide="truck" class="w-4 h-4 text-brandOrange"></i>
+              <span>Mulai Jemput</span>
+            </a>
+            <a
+              href="#kalkulator"
+              class="py-3 px-3 rounded-2xl bg-brandGreenDark/60 border border-white/25 text-white text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 transition"
+            >
+              <i data-lucide="calculator" class="w-4 h-4 text-brandOrange"></i>
+              <span>Cek Harga</span>
             </a>
           </div>
-
-          <!-- Mobile Menu Button -->
-          <div class="md:hidden flex items-center">
-            <button
-              id="mobile-menu-btn"
-              class="p-2 rounded-lg text-brandCharcoal hover:bg-slate-100 focus:outline-none"
-              aria-label="Toggle Menu"
-            >
-              <i data-lucide="menu" class="w-6 h-6" id="menu-icon"></i>
-            </button>
-          </div>
         </div>
-      </div>
 
-      <!-- Mobile Nav Menu -->
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3"
-      >
-        <a
-          href="#beranda"
-          class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-brandGreen hover:bg-slate-50"
-          >Beranda</a
-        >
-        <a
-          href="#layanan"
-          class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-brandGreen hover:bg-slate-50"
-          >Layanan</a
-        >
-        <a
-          href="#kalkulator"
-          class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-brandGreen hover:bg-slate-50"
-          >Panduan & Harga Daur Ulang</a
-        >
-        <a
-          href="#tentang"
-          class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-brandGreen hover:bg-slate-50"
-          >Tentang Kami</a
-        >
-        <a
-          href="#dampak"
-          class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-brandGreen hover:bg-slate-50"
-          >Dampak Eco</a
-        >
-        <div class="pt-2">
-          <a
-            href="#penjemputan"
-            class="mobile-link w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-base font-bold text-white bg-brandOrange hover:bg-brandOrangeDark shadow-md"
-          >
-            <i data-lucide="truck" class="w-5 h-5 mr-2"></i>
-            Jadwalkan Penjemputan
-          </a>
-        </div>
-      </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <section
-      id="beranda"
-      class="relative overflow-hidden bg-gradient-to-b from-brandLightBg via-white to-slate-50 pt-12 pb-20 lg:pt-20 lg:pb-32"
-    >
-      <!-- Background Decorative Elements -->
-      <div
-        class="absolute -top-24 -right-24 w-96 h-96 bg-brandGreen/10 rounded-full blur-3xl pointer-events-none"
-      ></div>
-      <div
-        class="absolute top-1/2 -left-24 w-80 h-80 bg-brandOrange/10 rounded-full blur-3xl pointer-events-none"
-      ></div>
-
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Trust Indicators -->
         <div
-          class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center"
+          class="grid grid-cols-3 gap-2 mt-6 pt-4 border-t border-white/15 text-center relative z-10"
         >
-          <!-- Text Column -->
-          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div>
+            <p class="text-base font-extrabold text-white">50.000+</p>
+            <p class="text-[10px] text-emerald-100">Pengguna Aktif</p>
+          </div>
+          <div>
+            <p class="text-base font-extrabold text-brandOrange">1.200 Ton</p>
+            <p class="text-[10px] text-emerald-100">Terdaur Ulang</p>
+          </div>
+          <div>
+            <p class="text-base font-extrabold text-white">100%</p>
+            <p class="text-[10px] text-emerald-100">Bebas Bau &amp; Rapi</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EKOSISTEM DAUR ULANG CARD -->
+      <section class="px-4 -mt-4 relative z-20">
+        <div
+          class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-md space-y-3"
+        >
+          <div class="flex items-center gap-3">
             <div
-              class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-brandGreen/10 text-brandGreen font-semibold text-xs sm:text-sm border border-brandGreen/20"
+              class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brandGreen to-brandGreenMid text-white flex items-center justify-center shrink-0 shadow"
             >
-              <i data-lucide="leaf" class="w-4 h-4"></i>
-              <span>Sistem Pengelolaan Sampah Terpadu</span>
+              <i data-lucide="recycle" class="w-6 h-6"></i>
             </div>
-
-            <h1
-              class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brandCharcoal leading-tight"
-            >
-              Kelola Sampah Jadi Lebih
-              <span
-                class="text-brandGreen underline decoration-brandOrange decoration-wavy underline-offset-8"
-                >Mudah</span
-              >
-              & Ramah Lingkungan
-            </h1>
-
-            <p
-              class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal"
-            >
-              Sampahku membantu rumah tangga & bisnis mengolah, menjual, dan
-              mendaur ulang sampah secara modern & wujudkan lingkungan bersih
-              tanpa repot!
-            </p>
-
-            <!-- CTAs & Micro-trust -->
-            <div
-              class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-            >
-              <a
-                href="#penjemputan"
-                class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-white bg-brandGreen hover:bg-brandGreenDark transition-all shadow-lg shadow-brandGreen/25 hover:-translate-y-0.5"
-              >
-                <i data-lucide="calendar" class="w-5 h-5 mr-2"></i>
-                Mulai Jemput Sampah
-              </a>
-              <a
-                href="#kalkulator"
-                class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-brandCharcoal bg-white border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
-              >
-                <i
-                  data-lucide="calculator"
-                  class="w-5 h-5 mr-2 text-brandOrange"
-                ></i>
-                Cek Nilai Sampahmu
-              </a>
-            </div>
-
-            <!-- Trust indicators -->
-            <div
-              class="pt-8 border-t border-slate-200/80 grid grid-cols-3 gap-4 text-center lg:text-left"
-            >
-              <div>
-                <p
-                  class="text-2xl sm:text-3xl font-extrabold text-brandCharcoal"
-                >
-                  50.000+
-                </p>
-                <p class="text-xs sm:text-sm text-slate-500 font-medium">
-                  Pengguna Aktif
-                </p>
-              </div>
-              <div>
-                <p class="text-2xl sm:text-3xl font-extrabold text-brandGreen">
-                  1.200 Ton
-                </p>
-                <p class="text-xs sm:text-sm text-slate-500 font-medium">
-                  Sampah Terdaur Ulang
-                </p>
-              </div>
-              <div>
-                <p class="text-2xl sm:text-3xl font-extrabold text-brandOrange">
-                  100%
-                </p>
-                <p class="text-xs sm:text-sm text-slate-500 font-medium">
-                  Bebas Bau & Rapi
-                </p>
-              </div>
+            <div>
+              <h2 class="text-sm font-extrabold text-brandCharcoal">
+                Ekosistem Daur Ulang Digital
+              </h2>
+              <p class="text-[11px] text-slate-500 leading-snug mt-0.5">
+                Pemilahan limbah rumah tangga &amp; komersial berbasis teknologi.
+              </p>
             </div>
           </div>
 
-          <!-- Graphic Showcase Column (Eco Recycling Illustration replace Dompet Sampahku) -->
-          <div class="lg:col-span-5 relative">
-            <div class="relative mx-auto max-w-md lg:max-w-none">
-              <!-- Main Hero Eco Badge Showcase Card -->
-              <div
-                class="bg-white/80 backdrop-blur-xl border border-brandGreen/20 rounded-3xl p-8 shadow-2xl relative z-10 overflow-hidden"
-              >
-                <div
-                  class="absolute -right-12 -top-12 w-48 h-48 bg-brandGreen/10 rounded-full blur-2xl pointer-events-none"
-                ></div>
-                <div
-                  class="absolute -left-12 -bottom-12 w-48 h-48 bg-brandOrange/10 rounded-full blur-2xl pointer-events-none"
-                ></div>
-
-                <!-- Graphic Vector / Badge Art -->
-                <div class="text-center py-4">
-                  <div
-                    class="w-24 h-24 sm:w-28 sm:h-28 mx-auto bg-gradient-to-tr from-brandGreen to-emerald-400 text-white rounded-3xl flex items-center justify-center shadow-xl shadow-brandGreen/30 mb-6 transition-transform hover:scale-105 duration-300"
-                  >
-                    <i
-                      data-lucide="recycle"
-                      class="w-12 h-12 sm:w-14 sm:h-14 stroke-[2]"
-                    ></i>
-                  </div>
-                  <h3 class="text-2xl font-extrabold text-brandCharcoal">
-                    Ekosistem Daur Ulang
-                  </h3>
-                  <p
-                    class="text-sm text-slate-600 mt-2 max-w-xs mx-auto leading-relaxed"
-                  >
-                    Solusi pintar pemilahan limbah rumah tangga & komersial
-                    berbasis teknologi ramah lingkungan.
-                  </p>
-                </div>
-
-                <!-- Feature Highlights -->
-                <div class="mt-6 pt-6 border-t border-slate-100 space-y-3.5">
-                  <div
-                    class="flex items-center space-x-3 text-xs sm:text-sm text-slate-700 font-medium bg-slate-50/80 p-3 rounded-2xl border border-slate-100"
-                  >
-                    <div
-                      class="w-8 h-8 rounded-xl bg-brandGreen/10 text-brandGreen flex items-center justify-center shrink-0"
-                    >
-                      <i data-lucide="shield-check" class="w-4 h-4"></i>
-                    </div>
-                    <span>Penimbangan Akurat & Transparan</span>
-                  </div>
-                  <div
-                    class="flex items-center space-x-3 text-xs sm:text-sm text-slate-700 font-medium bg-slate-50/80 p-3 rounded-2xl border border-slate-100"
-                  >
-                    <div
-                      class="w-8 h-8 rounded-xl bg-brandOrange/10 text-brandOrange flex items-center justify-center shrink-0"
-                    >
-                      <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    </div>
-                    <span>Tukarkan Sampah Jadi Nilai Ekonomi</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Floating Eco Badge -->
-              <div
-                class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 z-20 hidden sm:flex items-center space-x-3 max-w-xs"
-              >
-                <div
-                  class="w-12 h-12 rounded-full bg-emerald-100 text-brandGreen flex items-center justify-center shrink-0"
-                >
-                  <i data-lucide="award" class="w-6 h-6"></i>
-                </div>
-                <div>
-                  <p class="text-xs text-slate-500 font-medium">
-                    Pahlawan Lingkungan
-                  </p>
-                  <p class="text-sm font-bold text-brandCharcoal">
-                    Mengurangi Limbah CO2
-                  </p>
-                </div>
-              </div>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <div
+              class="flex items-center gap-2 bg-brandLightBg p-2.5 rounded-2xl border border-emerald-100"
+            >
+              <i data-lucide="shield-check" class="w-4 h-4 text-brandGreen shrink-0"></i>
+              <span class="text-[11px] font-bold text-brandCharcoal leading-tight">
+                Timbangan Akurat
+              </span>
+            </div>
+            <div
+              class="flex items-center gap-2 bg-amber-50/70 p-2.5 rounded-2xl border border-amber-100"
+            >
+              <i data-lucide="sparkles" class="w-4 h-4 text-brandOrange shrink-0"></i>
+              <span class="text-[11px] font-bold text-brandCharcoal leading-tight">
+                Bernilai Ekonomi
+              </span>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SERVICES / FEATURE SECTION -->
-    <section id="layanan" class="py-20 bg-white relative">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2
-            class="text-xs font-bold uppercase tracking-wider text-brandGreen mb-2"
-          >
-            Layanan Unggulan Kami
+      <!-- LAYANAN UNGGULAN -->
+      <section id="layanan" class="px-4 pt-6 space-y-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-brandGreen">
+            Layanan Unggulan
+          </span>
+          <h2 class="text-base font-extrabold text-brandCharcoal">
+            Solusi Pengelolaan Sampah Lengkap
           </h2>
-          <p
-            class="text-3xl sm:text-4xl font-extrabold text-brandCharcoal tracking-tight"
-          >
-            Solusi Lengkap Pengelolaan Sampah Dari Rumah Hingga Industri
-          </p>
-          <p class="mt-4 text-slate-600">
-            Kami menghadirkan ekosistem daur ulang yang transparan, profesional,
-            dan memberikan manfaat finansial langsung bagi Anda.
-          </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-2 gap-2.5">
           <!-- Card 1 -->
           <div
-            class="bg-slate-50 hover:bg-white rounded-3xl p-8 border border-slate-100 hover:border-brandGreen/30 transition-all duration-300 hover:shadow-xl group flex flex-col justify-between"
+            class="bg-white rounded-2xl p-3.5 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-2.5"
           >
             <div>
               <div
-                class="w-14 h-14 bg-brandGreen/10 group-hover:bg-brandGreen text-brandGreen group-hover:text-white rounded-2xl flex items-center justify-center mb-6 transition-colors"
+                class="w-10 h-10 bg-emerald-50 text-brandGreen rounded-xl flex items-center justify-center mb-2.5"
               >
-                <i data-lucide="truck" class="w-7 h-7"></i>
+                <i data-lucide="truck" class="w-5 h-5"></i>
               </div>
-              <h3 class="text-xl font-bold text-brandCharcoal mb-3">
+              <h3 class="text-xs font-extrabold text-brandCharcoal">
                 Penjemputan Sampah
               </h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                Layanan penjemputan langsung ke pintu rumah (Door-to-Door)
-                sesuai jadwal fleksibel yang Anda tentukan.
+              <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Jemput langsung ke rumah (Door-to-Door) sesuai jadwal pilihanmu.
               </p>
             </div>
             <a
-              href="#penjemputan"
-              class="inline-flex items-center text-sm font-bold text-brandGreen hover:text-brandGreenDark"
+              href="login.html"
+              class="inline-flex items-center text-[11px] font-extrabold text-brandGreen"
             >
-              Pesan Penjemputan
-              <i
-                data-lucide="arrow-right"
-                class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
-              ></i>
+              Pesan Sekarang <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
             </a>
           </div>
 
           <!-- Card 2 -->
           <div
-            class="bg-slate-50 hover:bg-white rounded-3xl p-8 border border-slate-100 hover:border-brandGreen/30 transition-all duration-300 hover:shadow-xl group flex flex-col justify-between"
+            class="bg-white rounded-2xl p-3.5 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-2.5"
           >
             <div>
               <div
-                class="w-14 h-14 bg-brandOrange/10 group-hover:bg-brandOrange text-brandOrange group-hover:text-white rounded-2xl flex items-center justify-center mb-6 transition-colors"
+                class="w-10 h-10 bg-amber-50 text-brandOrange rounded-xl flex items-center justify-center mb-2.5"
               >
-                <i data-lucide="recycle" class="w-7 h-7"></i>
+                <i data-lucide="recycle" class="w-5 h-5"></i>
               </div>
-              <h3 class="text-xl font-bold text-brandCharcoal mb-3">
-                Daur Ulang Plastik & Kertas
+              <h3 class="text-xs font-extrabold text-brandCharcoal">
+                Daur Ulang Terpilah
               </h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                Pemilahan & pengolahan material plastik, kertas, dan koran
-                secara bertanggung jawab menjadi bahan baku baru.
+              <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Pengolahan plastik, kertas, logam &amp; kaca menjadi bahan baku baru.
               </p>
             </div>
             <a
               href="#kalkulator"
-              class="inline-flex items-center text-sm font-bold text-brandOrange hover:text-brandOrangeDark"
+              class="inline-flex items-center text-[11px] font-extrabold text-brandOrangeDark"
             >
-              Lihat Kategori
-              <i
-                data-lucide="arrow-right"
-                class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
-              ></i>
+              Lihat Tarif <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
             </a>
           </div>
 
           <!-- Card 3 -->
           <div
-            class="bg-slate-50 hover:bg-white rounded-3xl p-8 border border-slate-100 hover:border-brandGreen/30 transition-all duration-300 hover:shadow-xl group flex flex-col justify-between"
+            class="bg-white rounded-2xl p-3.5 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-2.5"
           >
             <div>
               <div
-                class="w-14 h-14 bg-brandGreen/10 group-hover:bg-brandGreen text-brandGreen group-hover:text-white rounded-2xl flex items-center justify-center mb-6 transition-colors"
+                class="w-10 h-10 bg-emerald-50 text-brandGreen rounded-xl flex items-center justify-center mb-2.5"
               >
-                <i data-lucide="wallet" class="w-7 h-7"></i>
+                <i data-lucide="wallet" class="w-5 h-5"></i>
               </div>
-              <h3 class="text-xl font-bold text-brandCharcoal mb-3">
+              <h3 class="text-xs font-extrabold text-brandCharcoal">
                 Bank Sampah Digital
               </h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                Tukarkan sampah anorganik terpilah Anda menjadi saldo e-wallet
-                (Gopay, OVO, Dana) atau voucher belanja.
+              <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Tukarkan sampah anorganik terpilah menjadi nilai ekonomi langsung.
               </p>
             </div>
             <a
               href="#kalkulator"
-              class="inline-flex items-center text-sm font-bold text-brandGreen hover:text-brandGreenDark"
+              class="inline-flex items-center text-[11px] font-extrabold text-brandGreen"
             >
-              Hitung Pendapatan
-              <i
-                data-lucide="arrow-right"
-                class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
-              ></i>
+              Hitung Nilai <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
             </a>
           </div>
 
           <!-- Card 4 -->
           <div
-            class="bg-slate-50 hover:bg-white rounded-3xl p-8 border border-slate-100 hover:border-brandGreen/30 transition-all duration-300 hover:shadow-xl group flex flex-col justify-between"
+            class="bg-white rounded-2xl p-3.5 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-2.5"
           >
             <div>
               <div
-                class="w-14 h-14 bg-brandCharcoal/10 group-hover:bg-brandCharcoal text-brandCharcoal group-hover:text-white rounded-2xl flex items-center justify-center mb-6 transition-colors"
+                class="w-10 h-10 bg-slate-100 text-brandCharcoal rounded-xl flex items-center justify-center mb-2.5"
               >
-                <i data-lucide="building-2" class="w-7 h-7"></i>
+                <i data-lucide="building-2" class="w-5 h-5"></i>
               </div>
-              <h3 class="text-xl font-bold text-brandCharcoal mb-3">
+              <h3 class="text-xs font-extrabold text-brandCharcoal">
                 Layanan Komersial
               </h3>
-              <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                Solusi manajerial limbah khusus untuk restoran, kantor, hotel,
-                dan kawasan bisnis dengan laporan audit jejak karbon.
+              <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Manajemen limbah untuk restoran, kantor, dan kawasan bisnis.
               </p>
             </div>
             <a
-              href="#kontak"
-              class="inline-flex items-center text-sm font-bold text-brandCharcoal hover:text-slate-600"
+              href="login.html"
+              class="inline-flex items-center text-[11px] font-extrabold text-brandCharcoal"
             >
-              Konsultasi Bisnis
-              <i
-                data-lucide="arrow-right"
-                class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
-              ></i>
+              Ajukan Layanan <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-1"></i>
             </a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- INTERACTIVE TRASH CATEGORY & PRICE CALCULATOR SECTION -->
-    <section id="kalkulator" class="py-20 bg-brandLightBg relative">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2
-            class="text-xs font-bold uppercase tracking-wider text-brandOrange mb-2"
-          >
-            Simulasi & Panduan
+      <!-- KALKULATOR HARGA & PANDUAN PEMILAHAN -->
+      <section id="kalkulator" class="px-4 pt-6 space-y-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-brandOrangeDark">
+            Simulasi &amp; Panduan
+          </span>
+          <h2 class="text-base font-extrabold text-brandCharcoal">
+            Kalkulator Harga &amp; Pemilahan Sampah
           </h2>
-          <p
-            class="text-3xl sm:text-4xl font-extrabold text-brandCharcoal tracking-tight"
-          >
-            Kalkulator Harga & Panduan Pemilahan Sampah
-          </p>
-          <p class="mt-4 text-slate-600">
-            Pilih jenis sampah yang Anda miliki, masukkan estimasi berat, dan
-            temukan berapa nilai rupiah yang bisa Anda hasilkan!
-          </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <!-- Left: Category Selection & Specs -->
-          <div
-            class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80"
-          >
-            <h3
-              class="text-lg font-bold text-brandCharcoal mb-4 flex items-center"
-            >
-              <i data-lucide="layers" class="w-5 h-5 text-brandGreen mr-2"></i>
-              Pilih Kategori Sampah
-            </h3>
-
-            <div
-              class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8"
-              id="category-grid"
-            >
-              <!-- Categories dynamically updated/handled by JS -->
-              <button
-                onclick="selectCategory('plastik', 3500)"
-                class="cat-btn active p-4 rounded-2xl border-2 border-brandGreen bg-brandGreen/5 text-left transition-all flex flex-col justify-between h-28"
-                data-cat="plastik"
-              >
-                <i
-                  data-lucide="bottle-water"
-                  class="w-6 h-6 text-brandGreen"
-                ></i>
-                <div>
-                  <p class="font-bold text-sm text-brandCharcoal">
-                    Plastik PET / Botol
-                  </p>
-                  <p class="text-xs text-slate-500">Rp 3.500 / kg</p>
-                </div>
-              </button>
-
-              <button
-                onclick="selectCategory('kertas', 2500)"
-                class="cat-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-brandGreen/50 text-left transition-all flex flex-col justify-between h-28"
-                data-cat="kertas"
-              >
-                <i data-lucide="file-text" class="w-6 h-6 text-slate-600"></i>
-                <div>
-                  <p class="font-bold text-sm text-brandCharcoal">
-                    Kertas & Dus
-                  </p>
-                  <p class="text-xs text-slate-500">Rp 2.500 / kg</p>
-                </div>
-              </button>
-
-              <button
-                onclick="selectCategory('logam', 8000)"
-                class="cat-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-brandGreen/50 text-left transition-all flex flex-col justify-between h-28"
-                data-cat="logam"
-              >
-                <i data-lucide="component" class="w-6 h-6 text-slate-600"></i>
-                <div>
-                  <p class="font-bold text-sm text-brandCharcoal">
-                    Kaleng & Logam
-                  </p>
-                  <p class="text-xs text-slate-500">Rp 8.000 / kg</p>
-                </div>
-              </button>
-
-              <button
-                onclick="selectCategory('elektronik', 15000)"
-                class="cat-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-brandGreen/50 text-left transition-all flex flex-col justify-between h-28"
-                data-cat="elektronik"
-              >
-                <i data-lucide="laptop" class="w-6 h-6 text-slate-600"></i>
-                <div>
-                  <p class="font-bold text-sm text-brandCharcoal">
-                    Elektronik Bekas
-                  </p>
-                  <p class="text-xs text-slate-500">Rp 15.000 / kg</p>
-                </div>
-              </button>
-
-              <button
-                onclick="selectCategory('minyak', 6000)"
-                class="cat-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-brandGreen/50 text-left transition-all flex flex-col justify-between h-28"
-                data-cat="minyak"
-              >
-                <i data-lucide="droplet" class="w-6 h-6 text-slate-600"></i>
-                <div>
-                  <p class="font-bold text-sm text-brandCharcoal">
-                    Minyak Jelantah
-                  </p>
-                  <p class="text-xs text-slate-500">Rp 6.000 / Liter</p>
-                </div>
-              </button>
-
-              <button
-                onclick="selectCategory('kaca', 1200)"
-                class="cat-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-brandGreen/50 text-left transition-all flex flex-col justify-between h-28"
-                data-cat="kaca"
-              >
-                <i data-lucide="wine" class="w-6 h-6 text-slate-600"></i>
-                <div>
-                  <p class="font-bold text-sm text-brandCharcoal">Botol Kaca</p>
-                  <p class="text-xs text-slate-500">Rp 1.200 / kg</p>
-                </div>
-              </button>
-            </div>
-
-            <!-- Weight Input Slider -->
-            <div class="space-y-4 pt-4 border-t border-slate-100">
-              <div class="flex justify-between items-center">
-                <label
-                  for="weightRange"
-                  class="font-bold text-sm text-brandCharcoal"
-                  >Estimasi Berat / Volume:</label
-                >
-                <span
-                  class="text-lg font-extrabold text-brandGreen bg-brandGreen/10 px-3 py-1 rounded-lg"
-                  id="weightDisplay"
-                  >5 Kg</span
-                >
-              </div>
-              <input
-                type="range"
-                id="weightRange"
-                min="1"
-                max="100"
-                value="5"
-                class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brandGreen"
-                oninput="updateCalculator()"
-              />
-              <div class="flex justify-between text-xs text-slate-400">
-                <span>1 Kg</span>
-                <span>50 Kg</span>
-                <span>100 Kg</span>
-              </div>
-            </div>
-
-            <!-- Guide Tips -->
-            <div
-              class="mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/60 text-xs text-slate-600 space-y-1"
-              id="cat-tip"
-            >
-              <p class="font-bold text-brandCharcoal mb-1 flex items-center">
-                <i data-lucide="info" class="w-4 h-4 text-brandOrange mr-1"></i>
-                Syarat Kondisi Sampah:
-              </p>
-              <p id="tip-text">
-                • Pastikan botol plastik dalam keadaan bersih, dikosongkan dari
-                cairan, dan dipipihkan jika memungkinkan.
-              </p>
-            </div>
-          </div>
-
-          <!-- Right: Estimated Earnings Output Card -->
-          <div
-            class="lg:col-span-5 bg-brandCharcoal text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between h-full"
-          >
-            <div>
-              <div
-                class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-700/60 text-brandOrange text-xs font-semibold mb-6"
-              >
-                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                <span>Estimasi Real-time</span>
-              </div>
-
-              <h3 class="text-slate-300 text-sm font-medium">
-                Estimasi Saldo Terima
-              </h3>
-              <p
-                class="text-4xl sm:text-5xl font-extrabold text-white mt-2"
-                id="estimatedEarnings"
-              >
-                Rp 17.500
-              </p>
-              <p class="text-xs text-slate-400 mt-2">
-                *Nilai akhir dapat bervariasi tergantung penimbangan aktual oleh
-                kurir.
-              </p>
-
-              <div class="mt-8 space-y-4 border-t border-slate-700/80 pt-6">
-                <div class="flex justify-between items-center text-sm">
-                  <span class="text-slate-400">Kategori Terpilih:</span>
-                  <span class="font-semibold text-white" id="summaryCategory"
-                    >Plastik PET / Botol</span
-                  >
-                </div>
-                <div class="flex justify-between items-center text-sm">
-                  <span class="text-slate-400">Harga Satuan:</span>
-                  <span class="font-semibold text-white" id="summaryRate"
-                    >Rp 3.500 / kg</span
-                  >
-                </div>
-                <div class="flex justify-between items-center text-sm">
-                  <span class="text-slate-400">Estimasi Pengurangan CO2:</span>
-                  <span
-                    class="font-semibold text-brandGreen flex items-center"
-                    id="summaryCO2"
-                  >
-                    <i data-lucide="tree-pine" class="w-4 h-4 mr-1"></i> ~7.5 Kg
-                    CO2
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-8">
-              <a
-                href="#penjemputan"
-                onclick="prefillBooking()"
-                class="w-full py-4 bg-brandOrange hover:bg-brandOrangeDark rounded-xl text-center font-bold text-white flex items-center justify-center transition-all shadow-lg shadow-brandOrange/20"
-              >
-                Lanjut Jemput Sampah Ini
-                <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT & HOW IT WORKS SECTION -->
-    <section id="tentang" class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <!-- Left Graphic Block -->
-          <div class="relative">
-            <div
-              class="relative rounded-3xl overflow-hidden shadow-2xl bg-brandCharcoal text-white p-8 sm:p-12"
-            >
-              <div
-                class="absolute top-0 right-0 w-64 h-64 bg-brandGreen/10 rounded-full blur-3xl"
-              ></div>
-              <h3
-                class="text-2xl sm:text-3xl font-extrabold mb-6 leading-tight"
-              >
-                Mewujudkan Indonesia Bebas Sampah Melalui Inovasi Digital
-              </h3>
-              <p class="text-slate-300 text-sm leading-relaxed mb-6">
-                Sampahku hadir sebagai solusi pengelolaan limbah modern berbasis
-                komunitas. Kami menghubungkan rumah tangga, bisnis lokal, dan
-                pusat daur ulang resmi dalam satu rantai pasok ramah lingkungan.
-              </p>
-
-              <div class="space-y-4">
-                <div class="flex items-start space-x-3">
-                  <div
-                    class="w-6 h-6 rounded-full bg-brandGreen text-white flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="check" class="w-4 h-4"></i>
-                  </div>
-                  <span class="text-sm text-slate-200"
-                    >100% Terintegrasi dengan Bank Sampah Lokal</span
-                  >
-                </div>
-                <div class="flex items-start space-x-3">
-                  <div
-                    class="w-6 h-6 rounded-full bg-brandGreen text-white flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="check" class="w-4 h-4"></i>
-                  </div>
-                  <span class="text-sm text-slate-200"
-                    >Proses Penimbangan Akurat dengan Timbangan Digital
-                    Terverifikasi</span
-                  >
-                </div>
-                <div class="flex items-start space-x-3">
-                  <div
-                    class="w-6 h-6 rounded-full bg-brandGreen text-white flex items-center justify-center shrink-0 mt-0.5"
-                  >
-                    <i data-lucide="check" class="w-4 h-4"></i>
-                  </div>
-                  <span class="text-sm text-slate-200"
-                    >Pencarian Kurir Terdekat Secara Otomatis</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Steps -->
-          <div class="space-y-8">
-            <div>
-              <h2
-                class="text-xs font-bold uppercase tracking-wider text-brandGreen mb-2"
-              >
-                Cara Kerja Sampahku
-              </h2>
-              <h3
-                class="text-3xl font-extrabold text-brandCharcoal tracking-tight"
-              >
-                4 Langkah Mudah Berkontribusi
-              </h3>
-            </div>
-
-            <div class="space-y-6">
-              <!-- Step 1 -->
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-10 h-10 rounded-2xl bg-brandGreen/10 text-brandGreen font-bold flex items-center justify-center shrink-0 text-lg"
-                >
-                  1
-                </div>
-                <div>
-                  <h4 class="font-bold text-brandCharcoal text-base">
-                    Pilah Sampah Dari Rumah
-                  </h4>
-                  <p class="text-slate-600 text-sm mt-1">
-                    Pisahkan sampah anorganik (plastik, kertas, kaca, logam)
-                    sesuai jenisnya.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Step 2 -->
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-10 h-10 rounded-2xl bg-brandOrange/10 text-brandOrange font-bold flex items-center justify-center shrink-0 text-lg"
-                >
-                  2
-                </div>
-                <div>
-                  <h4 class="font-bold text-brandCharcoal text-base">
-                    Jadwalkan Penjemputan
-                  </h4>
-                  <p class="text-slate-600 text-sm mt-1">
-                    Gunakan formulir online di website/aplikasi untuk menentukan
-                    waktu pengambilan.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Step 3 -->
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-10 h-10 rounded-2xl bg-brandGreen/10 text-brandGreen font-bold flex items-center justify-center shrink-0 text-lg"
-                >
-                  3
-                </div>
-                <div>
-                  <h4 class="font-bold text-brandCharcoal text-base">
-                    Kurir Menimbang Di Tempat
-                  </h4>
-                  <p class="text-slate-600 text-sm mt-1">
-                    Kurir Eco-Hero kami akan datang, mengecek, dan menimbang
-                    sampah secara akurat.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Step 4 -->
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-10 h-10 rounded-2xl bg-brandCharcoal/10 text-brandCharcoal font-bold flex items-center justify-center shrink-0 text-lg"
-                >
-                  4
-                </div>
-                <div>
-                  <h4 class="font-bold text-brandCharcoal text-base">
-                    Terima Saldo & Bantu Bumi
-                  </h4>
-                  <p class="text-slate-600 text-sm mt-1">
-                    Saldo langsung masuk ke rekening/e-wallet Anda dan sampah
-                    diproses daur ulang.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER & CONTACT -->
-    <footer
-      id="kontak"
-      class="bg-brandCharcoal text-white pt-16 pb-12 border-t border-slate-800"
-    >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800"
+          class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-4"
         >
-          <!-- Brand Info -->
-          <div class="space-y-4">
-            <div class="flex items-center space-x-3">
-              <div
-                class="w-10 h-10 bg-brandGreen rounded-xl flex items-center justify-center text-white"
-              >
-                <i data-lucide="recycle" class="w-6 h-6"></i>
+          <p class="text-xs font-bold text-brandCharcoal flex items-center">
+            <i data-lucide="layers" class="w-4 h-4 text-brandGreen mr-1.5"></i>
+            Pilih Kategori Sampah
+          </p>
+
+          <!-- 6 Kategori Sampah -->
+          <div class="grid grid-cols-2 gap-2.5" id="category-grid">
+            <button
+              type="button"
+              onclick="selectCategory('plastik', 3500)"
+              class="cat-btn active p-3 rounded-2xl border-2 border-brandGreen bg-brandGreen/5 text-left transition-all flex flex-col justify-between gap-2"
+              data-cat="plastik"
+            >
+              <i data-lucide="milk" class="w-5 h-5 text-brandGreen"></i>
+              <div>
+                <p class="font-extrabold text-xs text-brandCharcoal">
+                  Plastik PET / Botol
+                </p>
+                <p class="text-[11px] text-slate-500">Rp 3.500 / kg</p>
               </div>
-              <span class="text-2xl font-extrabold tracking-tight text-white">
-                Sampah<span class="text-brandOrange">ku</span>
+            </button>
+
+            <button
+              type="button"
+              onclick="selectCategory('kertas', 2500)"
+              class="cat-btn p-3 rounded-2xl border-2 border-slate-200 text-left transition-all flex flex-col justify-between gap-2"
+              data-cat="kertas"
+            >
+              <i data-lucide="file-text" class="w-5 h-5 text-slate-600"></i>
+              <div>
+                <p class="font-extrabold text-xs text-brandCharcoal">
+                  Kertas &amp; Dus
+                </p>
+                <p class="text-[11px] text-slate-500">Rp 2.500 / kg</p>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onclick="selectCategory('logam', 8000)"
+              class="cat-btn p-3 rounded-2xl border-2 border-slate-200 text-left transition-all flex flex-col justify-between gap-2"
+              data-cat="logam"
+            >
+              <i data-lucide="component" class="w-5 h-5 text-slate-600"></i>
+              <div>
+                <p class="font-extrabold text-xs text-brandCharcoal">
+                  Kaleng &amp; Logam
+                </p>
+                <p class="text-[11px] text-slate-500">Rp 8.000 / kg</p>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onclick="selectCategory('elektronik', 15000)"
+              class="cat-btn p-3 rounded-2xl border-2 border-slate-200 text-left transition-all flex flex-col justify-between gap-2"
+              data-cat="elektronik"
+            >
+              <i data-lucide="laptop" class="w-5 h-5 text-slate-600"></i>
+              <div>
+                <p class="font-extrabold text-xs text-brandCharcoal">
+                  Elektronik Bekas
+                </p>
+                <p class="text-[11px] text-slate-500">Rp 15.000 / kg</p>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onclick="selectCategory('minyak', 6000)"
+              class="cat-btn p-3 rounded-2xl border-2 border-slate-200 text-left transition-all flex flex-col justify-between gap-2"
+              data-cat="minyak"
+            >
+              <i data-lucide="droplet" class="w-5 h-5 text-slate-600"></i>
+              <div>
+                <p class="font-extrabold text-xs text-brandCharcoal">
+                  Minyak Jelantah
+                </p>
+                <p class="text-[11px] text-slate-500">Rp 6.000 / Liter</p>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onclick="selectCategory('kaca', 1200)"
+              class="cat-btn p-3 rounded-2xl border-2 border-slate-200 text-left transition-all flex flex-col justify-between gap-2"
+              data-cat="kaca"
+            >
+              <i data-lucide="wine" class="w-5 h-5 text-slate-600"></i>
+              <div>
+                <p class="font-extrabold text-xs text-brandCharcoal">
+                  Botol Kaca
+                </p>
+                <p class="text-[11px] text-slate-500">Rp 1.200 / kg</p>
+              </div>
+            </button>
+          </div>
+
+          <!-- Weight Input Slider -->
+          <div class="space-y-2.5 pt-3 border-t border-slate-100">
+            <div class="flex justify-between items-center">
+              <label
+                for="weightRange"
+                class="font-bold text-xs text-brandCharcoal"
+                >Estimasi Berat / Volume:</label
+              >
+              <span
+                class="text-xs font-extrabold text-brandGreen bg-emerald-50 px-2.5 py-1 rounded-lg"
+                id="weightDisplay"
+                >5 Kg</span
+              >
+            </div>
+            <input
+              type="range"
+              id="weightRange"
+              min="1"
+              max="100"
+              value="5"
+              class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brandGreen"
+              oninput="updateCalculator()"
+            />
+            <div class="flex justify-between text-[10px] text-slate-400">
+              <span>1 Kg</span>
+              <span>50 Kg</span>
+              <span>100 Kg</span>
+            </div>
+          </div>
+
+          <!-- Syarat Kondisi Sampah -->
+          <div
+            class="p-3 rounded-2xl bg-slate-50 border border-slate-200/70 text-[11px] text-slate-600 space-y-1"
+            id="cat-tip"
+          >
+            <p class="font-bold text-brandCharcoal flex items-center">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-brandOrange mr-1"></i>
+              Syarat Kondisi Sampah:
+            </p>
+            <p id="tip-text" class="leading-relaxed">
+              &bull; Pastikan botol plastik dalam keadaan bersih, dikosongkan
+              dari cairan, dan dipipihkan jika memungkinkan.
+            </p>
+          </div>
+
+          <!-- Hasil Estimasi -->
+          <div
+            class="bg-brandCharcoal text-white rounded-2xl p-4 space-y-3 shadow-md"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-[10px] text-slate-300">Estimasi Saldo Terima</p>
+                <p
+                  class="text-2xl font-extrabold text-white mt-0.5"
+                  id="estimatedEarnings"
+                >
+                  Rp 17.500
+                </p>
+              </div>
+              <span
+                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/10 text-brandOrange text-[10px] font-bold"
+              >
+                <i data-lucide="sparkles" class="w-3 h-3"></i> Real-time
               </span>
             </div>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              Platform daur ulang terpadu yang mempermudah masyarakat dalam
-              mengelola sampah secara cerdas, bersih, dan menguntungkan.
-            </p>
-            <div class="flex space-x-3 pt-2">
-              <a
-                href="#"
-                class="w-9 h-9 rounded-full bg-slate-800 hover:bg-brandGreen text-slate-300 hover:text-white flex items-center justify-center transition-colors"
-              >
-                <i data-lucide="instagram" class="w-4 h-4"></i>
-              </a>
-              <a
-                href="#"
-                class="w-9 h-9 rounded-full bg-slate-800 hover:bg-brandGreen text-slate-300 hover:text-white flex items-center justify-center transition-colors"
-              >
-                <i data-lucide="facebook" class="w-4 h-4"></i>
-              </a>
-              <a
-                href="#"
-                class="w-9 h-9 rounded-full bg-slate-800 hover:bg-brandGreen text-slate-300 hover:text-white flex items-center justify-center transition-colors"
-              >
-                <i data-lucide="twitter" class="w-4 h-4"></i>
-              </a>
+
+            <div class="space-y-1.5 border-t border-white/10 pt-2.5 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Kategori:</span>
+                <span class="font-semibold text-white" id="summaryCategory"
+                  >Plastik PET / Botol</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Harga Satuan:</span>
+                <span class="font-semibold text-white" id="summaryRate"
+                  >Rp 3.500 / kg</span
+                >
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Pengurangan CO2:</span>
+                <span
+                  class="font-semibold text-brandGreenMid flex items-center"
+                  id="summaryCO2"
+                >
+                  <i data-lucide="tree-pine" class="w-3.5 h-3.5 mr-1"></i> ~7.5 Kg
+                  CO2
+                </span>
+              </div>
+            </div>
+
+            <a
+              href="login.html"
+              class="w-full py-3 bg-brandOrange hover:bg-brandOrangeDark rounded-xl text-center text-xs font-extrabold text-white flex items-center justify-center gap-1.5 transition"
+            >
+              <span>Lanjut Jemput Sampah Ini</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARA KERJA & TENTANG KAMI -->
+      <section id="tentang" class="px-4 pt-6 pb-4 space-y-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-brandGreen">
+            Cara Kerja Sampahku
+          </span>
+          <h2 class="text-base font-extrabold text-brandCharcoal">
+            4 Langkah Mudah Berkontribusi
+          </h2>
+        </div>
+
+        <div
+          class="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm space-y-3.5"
+        >
+          <div class="flex items-start gap-3">
+            <div
+              class="w-8 h-8 rounded-xl bg-emerald-50 text-brandGreen font-extrabold flex items-center justify-center shrink-0 text-xs"
+            >
+              1
+            </div>
+            <div>
+              <h3 class="font-bold text-brandCharcoal text-xs">
+                Pilah Sampah Dari Rumah
+              </h3>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                Pisahkan sampah anorganik (plastik, kertas, kaca, logam) sesuai
+                jenisnya.
+              </p>
             </div>
           </div>
 
-          <!-- Nav Quick Links -->
-          <div>
-            <h4 class="text-white font-bold mb-4 text-base">Navigasi Cepat</h4>
-            <ul class="space-y-2.5 text-sm text-slate-400">
-              <li>
-                <a
-                  href="#beranda"
-                  class="hover:text-brandGreen transition-colors"
-                  >Beranda</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#layanan"
-                  class="hover:text-brandGreen transition-colors"
-                  >Layanan Pengumpulan</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#kalkulator"
-                  class="hover:text-brandGreen transition-colors"
-                  >Kalkulator Daur Ulang</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#tentang"
-                  class="hover:text-brandGreen transition-colors"
-                  >Tentang Kami</a
-                >
-              </li>
-            </ul>
+          <div class="flex items-start gap-3">
+            <div
+              class="w-8 h-8 rounded-xl bg-amber-50 text-brandOrangeDark font-extrabold flex items-center justify-center shrink-0 text-xs"
+            >
+              2
+            </div>
+            <div>
+              <h3 class="font-bold text-brandCharcoal text-xs">
+                Buat Laporan / Jadwalkan Jemput
+              </h3>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                Masuk ke aplikasi, unggah foto bukti sampah, dan dapatkan nomor
+                tiket otomatis.
+              </p>
+            </div>
           </div>
 
-          <!-- Contact Detail -->
-          <div>
-            <h4 class="text-white font-bold mb-4 text-base">Hubungi Kami</h4>
-            <ul class="space-y-3 text-sm text-slate-400">
-              <li class="flex items-start space-x-3">
-                <i
-                  data-lucide="map-pin"
-                  class="w-5 h-5 text-brandGreen shrink-0 mt-0.5"
-                ></i>
-                <span
-                  >Jl. Hijau Lestari No. 88, Jakarta Selatan, Indonesia</span
-                >
-              </li>
-              <li class="flex items-center space-x-3">
-                <i
-                  data-lucide="phone"
-                  class="w-5 h-5 text-brandOrange shrink-0"
-                ></i>
-                <span>+62 812-3456-7890</span>
-              </li>
-              <li class="flex items-center space-x-3">
-                <i
-                  data-lucide="mail"
-                  class="w-5 h-5 text-brandGreen shrink-0"
-                ></i>
-                <span>halo@sampahku.id</span>
-              </li>
-            </ul>
+          <div class="flex items-start gap-3">
+            <div
+              class="w-8 h-8 rounded-xl bg-emerald-50 text-brandGreen font-extrabold flex items-center justify-center shrink-0 text-xs"
+            >
+              3
+            </div>
+            <div>
+              <h3 class="font-bold text-brandCharcoal text-xs">
+                Petugas Datang &amp; Menimbang
+              </h3>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                Petugas lapangan memverifikasi lokasi dan mengangkut sampah
+                secara akurat.
+              </p>
+            </div>
           </div>
 
-          <!-- Newsletter / App Badge -->
-          <div>
-            <h4 class="text-white font-bold mb-4 text-base">Tetap Terhubung</h4>
-            <p class="text-slate-400 text-xs mb-4">
-              Dapatkan tips gaya hidup minim sampah setiap minggu.
-            </p>
-            <div class="space-y-2">
-              <input
-                type="email"
-                placeholder="Email Anda..."
-                class="w-full px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-brandGreen"
-              />
-              <button
-                class="w-full py-2.5 bg-brandGreen hover:bg-brandGreenDark rounded-xl font-bold text-xs text-white transition-colors"
-              >
-                Berlangganan
-              </button>
+          <div class="flex items-start gap-3">
+            <div
+              class="w-8 h-8 rounded-xl bg-slate-100 text-brandCharcoal font-extrabold flex items-center justify-center shrink-0 text-xs"
+            >
+              4
+            </div>
+            <div>
+              <h3 class="font-bold text-brandCharcoal text-xs">
+                Pantau Tiket &amp; Jaga Bumi
+              </h3>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                Cek status penanganan hingga tuntas dan bantu kurangi emisi
+                karbon lingkungan.
+              </p>
             </div>
           </div>
         </div>
 
-        <div class="pt-8 text-center text-xs text-slate-500">
-          <p>
-            &copy; 2026 Sampahku Indonesia. Hak Cipta Dilindungi Undang-Undang.
-            Bersama Menjaga Bumi.
+        <!-- Info Footer Singkat -->
+        <div
+          class="bg-brandCharcoal text-slate-300 rounded-3xl p-4 text-[11px] space-y-2"
+        >
+          <p class="font-extrabold text-white text-xs">
+            Sampah<span class="text-brandOrange">ku</span> Indonesia
+          </p>
+          <p class="leading-relaxed text-slate-400">
+            Jl. Hijau Lestari No. 88, Jakarta Selatan &bull; +62 812-3456-7890
+          </p>
+          <p class="text-[10px] text-slate-500 pt-1 border-t border-white/10">
+            &copy; 2026 Sampahku Indonesia. Bersama Menjaga Bumi.
           </p>
         </div>
-      </div>
-    </footer>
+      </section>
 
-    <!-- SUCCESS MODAL FOR BOOKING -->
-    <div
-      id="bookingModal"
-      class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4"
-    >
-      <div
-        class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center relative animate-fade-in"
+      <!-- BOTTOM MOBILE NAVIGATION BAR (PENGGANTI TOOLBAR ATAS) -->
+      <nav
+        class="fixed bottom-0 z-50 w-full max-w-[440px] bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 pt-2 safe-bottom grid grid-cols-4 text-center shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
       >
-        <div
-          class="w-16 h-16 bg-brandGreen/20 text-brandGreen rounded-full flex items-center justify-center mx-auto mb-4"
+        <a
+          href="#beranda"
+          class="flex flex-col items-center justify-center gap-1 py-1 text-brandGreen"
         >
-          <i data-lucide="check-circle-2" class="w-10 h-10"></i>
-        </div>
-        <h3 class="text-2xl font-bold text-brandCharcoal mb-2">
-          Penjemputan Berhasil Dijadwalkan!
-        </h3>
-        <p class="text-slate-600 text-sm mb-6" id="modalMessage">
-          Terima kasih! Kurir Eco-Hero kami akan menghubungi WhatsApp Anda untuk
-          konfirmasi waktu kedatangan.
-        </p>
-        <button
-          onclick="closeModal()"
-          class="w-full py-3 bg-brandGreen text-white font-bold rounded-xl hover:bg-brandGreenDark transition-all"
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <span class="text-[11px] font-bold">Beranda</span>
+        </a>
+
+        <a
+          href="#layanan"
+          class="flex flex-col items-center justify-center gap-1 py-1 text-slate-500 hover:text-brandGreen"
         >
-          Tutup & Kembali
-        </button>
-      </div>
+          <i data-lucide="grid" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Layanan</span>
+        </a>
+
+        <a
+          href="#kalkulator"
+          class="flex flex-col items-center justify-center gap-1 py-1 text-slate-500 hover:text-brandGreen"
+        >
+          <i data-lucide="calculator" class="w-5 h-5"></i>
+          <span class="text-[11px] font-semibold">Kalkulator</span>
+        </a>
+
+        <a
+          href="login.html"
+          class="flex flex-col items-center justify-center gap-1 py-1 text-brandOrangeDark font-bold"
+        >
+          <i data-lucide="user-circle" class="w-5 h-5"></i>
+          <span class="text-[11px] font-extrabold">Masuk</span>
+        </a>
+      </nav>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-      // Initialize Lucide Icons
       lucide.createIcons();
 
-      // Mobile Menu Toggle
-      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const mobileLinks = document.querySelectorAll(".mobile-link");
-
-      mobileMenuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-      });
-
-      mobileLinks.forEach((link) => {
-        link.addEventListener("click", () => {
-          mobileMenu.classList.add("hidden");
-        });
-      });
-
-      // Interactive Price Calculator Logic
       let currentRate = 3500;
       let currentCategoryName = "Plastik PET / Botol";
 
@@ -1096,12 +682,13 @@
           "• Meliputi komponen laptop, smartphone tua, kabel, charger, atau alat elektronik rumah tangga rusak.",
         minyak:
           "• Minyak goreng bekas disaring dari ampas dan disimpan di dalam wadah/jerigen atau botol rapat.",
-        kaca: "• Botol atau wadah kaca harus utuh dan dipisah dari sampah bahan keras lainnya untuk keamanan.",
+        kaca:
+          "• Botol atau wadah kaca harus utuh dan dipisah dari sampah bahan keras lainnya untuk keamanan.",
       };
 
       const categoryNames = {
         plastik: "Plastik PET / Botol",
-        kertas: "Kertas & Dus Bekas",
+        kertas: "Kertas & Dus",
         logam: "Kaleng & Logam",
         elektronik: "Elektronik Bekas",
         minyak: "Minyak Jelantah",
@@ -1112,7 +699,6 @@
         currentRate = rate;
         currentCategoryName = categoryNames[catKey] || catKey;
 
-        // Update UI buttons styling
         document.querySelectorAll(".cat-btn").forEach((btn) => {
           if (btn.getAttribute("data-cat") === catKey) {
             btn.classList.add("border-brandGreen", "bg-brandGreen/5");
@@ -1133,7 +719,6 @@
           }
         });
 
-        // Update tips
         document.getElementById("tip-text").innerText =
           categoryTips[catKey] || "• Pilah sampah dengan rapi.";
 
@@ -1141,7 +726,7 @@
       }
 
       function updateCalculator() {
-        const weight = parseInt(document.getElementById("weightRange").value);
+        const weight = parseInt(document.getElementById("weightRange").value, 10);
         const unit = currentCategoryName.includes("Minyak") ? "Liter" : "Kg";
 
         document.getElementById("weightDisplay").innerText =
@@ -1157,102 +742,10 @@
         document.getElementById("summaryRate").innerText =
           `Rp ${currentRate.toLocaleString("id-ID")} / ${unit}`;
         document.getElementById("summaryCO2").innerHTML =
-          `<i data-lucide="tree-pine" class="w-4 h-4 mr-1"></i> ~${co2Saved} Kg CO2`;
+          `<i data-lucide="tree-pine" class="w-3.5 h-3.5 mr-1"></i> ~${co2Saved} Kg CO2`;
 
         lucide.createIcons();
       }
-
-      function prefillBooking() {
-        const selectElem = document.getElementById("trashCategorySelect");
-        if (selectElem) {
-          // simple mapping matching dropdown values
-          const currentCat =
-            document
-              .querySelector(".cat-btn.border-brandGreen")
-              ?.getAttribute("data-cat") || "plastik";
-          selectElem.value = currentCat;
-        }
-      }
-
-      // Form Submit Handler
-      function handleFormSubmit(e) {
-        e.preventDefault();
-        const name = document.getElementById("fullName").value;
-        const phone = document.getElementById("phoneNum").value;
-        const date = document.getElementById("pickupDate").value;
-
-        document.getElementById("modalMessage").innerHTML =
-          `Terima kasih, <strong>${name}</strong>! Pesanan penjemputan Anda pada tanggal <strong>${date}</strong> telah kami terima. Tim kami akan menghubungi WhatsApp <strong>${phone}</strong> segera.`;
-
-        document.getElementById("bookingModal").classList.remove("hidden");
-        document.getElementById("pickupForm").reset();
-      }
-
-      function closeModal() {
-        document.getElementById("bookingModal").classList.add("hidden");
-      }
-
-      // Animated Impact Counter Logic
-      function animateCounter(
-        elementId,
-        targetNumber,
-        duration = 2000,
-        suffix = "",
-      ) {
-        const elem = document.getElementById(elementId);
-        if (!elem) return;
-        let start = 0;
-        const stepTime = Math.abs(Math.floor(duration / targetNumber));
-
-        const timer = setInterval(() => {
-          start += Math.ceil(targetNumber / 50);
-          if (start >= targetNumber) {
-            start = targetNumber;
-            clearInterval(timer);
-          }
-          elem.innerText = start.toLocaleString("id-ID") + suffix;
-        }, 30);
-      }
-
-      // FAQ Accordion Toggle
-      function toggleFaq(id) {
-        const ans = document.getElementById(`faq-ans-${id}`);
-        const icon = document.getElementById(`faq-icon-${id}`);
-
-        if (ans.classList.contains("hidden")) {
-          ans.classList.remove("hidden");
-          icon.style.transform = "rotate(180deg)";
-        } else {
-          ans.classList.add("hidden");
-          icon.style.transform = "rotate(0deg)";
-        }
-      }
-
-      // Trigger Counter Animation on Scroll Intersection
-      let counterAnimated = false;
-      window.addEventListener("scroll", () => {
-        const impactSection = document.getElementById("dampak");
-        if (impactSection && !counterAnimated) {
-          const rect = impactSection.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.8) {
-            counterAnimated = true;
-            animateCounter("counter-waste", 1250000); // 1.25M Kg
-            animateCounter("counter-co2", 1850); // 1,850 Tons
-            animateCounter("counter-households", 52400); // 52.4K households
-            animateCounter("counter-payout", 450); // 450 Juta
-          }
-        }
-      });
-
-      // Set min date for pickup date picker to today
-      window.addEventListener("DOMContentLoaded", () => {
-        const dateInput = document.getElementById("pickupDate");
-        if (dateInput) {
-          const today = new Date().toISOString().split("T")[0];
-          dateInput.min = today;
-          dateInput.value = today;
-        }
-      });
     </script>
   </body>
 </html>
